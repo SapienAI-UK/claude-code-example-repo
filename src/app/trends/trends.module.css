@@ -1,0 +1,22 @@
+.filter {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.label {
+  width: 72px;
+  white-space: nowrap;
+}
+
+.bar {
+  height: 12px;
+  min-width: 1px;
+  background: #999;
+}
+
+.value {
+  width: 56px;
+  text-align: right;
+}
