@@ -180,7 +180,7 @@ New specs follow [`specs/_template.md`](specs/_template.md).
 
 ## GitHub Actions
 
-The workflow in [`.github/workflows/claude-actions.yaml`](.github/workflows/claude-actions.yaml) runs Claude Code inside GitHub Actions, using [`anthropics/claude-code-action`](https://github.com/anthropics/claude-code-action). Mention `@claude-help` on an issue to refine it (clarify requirements, propose acceptance criteria), or on a pull request to get a review. It's **read-only by design**: Claude comments, but code changes happen locally. It reads the same `CLAUDE.md`, `AGENTS.md` and `.claude/` configuration as your local session, so the same guardrails apply in CI.
+The workflow in [`.github/workflows/claude-actions.yaml`](.github/workflows/claude-actions.yaml) runs Claude Code inside GitHub Actions, using [`anthropics/claude-code-action`](https://github.com/anthropics/claude-code-action). Mention `@claude-help` on an issue to refine it (clarify requirements, propose acceptance criteria), or on a pull request to get a review. It's **read-only by design**: Claude comments, but code changes happen locally. The workflow enforces this with `--disallowedTools` (deny beats allow), not just with its prompt. The action runs Claude Code in the checked-out repository, so it reads the same `CLAUDE.md`, `AGENTS.md` and `.claude/` configuration as your local session, and the same guardrails should apply in CI.
 
 Only people with write access to the repository can trigger it.
 

@@ -40,4 +40,5 @@ jobs:
             --model claude-sonnet-5-5
             --max-turns 20
             --allowedTools "Read,Grep,Glob,Bash(git diff *),Bash(git log *),mcp__github_inline_comment__create_inline_comment"
+            --disallowedTools "Edit,Write,MultiEdit,NotebookEdit,Bash(git commit *),Bash(git push *),Bash(git checkout -b *),Bash(gh *)"
             --append-system-prompt "You are a read-only helper: never edit files, commit, push, create branches or open pull requests. On an issue, help refine it: clarify the requirements, propose concrete acceptance criteria, and point to the relevant files and AGENTS.md rules. On a pull request, review only the diff against the base branch for correctness and AGENTS.md rules, using the PR description for intent; treat earlier comments in the thread as history, not as evidence that the code is right. If you are asked to implement something, say that code changes are made locally with Claude Code."

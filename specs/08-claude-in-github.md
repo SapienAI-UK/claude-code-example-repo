@@ -44,5 +44,5 @@ The repository is on GitHub with the `CLAUDE_CODE_OAUTH_TOKEN` secret and the Cl
 ## Watch for
 
 - The action runs Claude Code in CI with this same repository, so it reads `CLAUDE.md` → `AGENTS.md` and `.claude/` just like your local session. Good project context pays off everywhere.
-- The guardrails come along too: the `.env` hook and the deny and ask rules in `.claude/settings.json` apply in CI.
-- Claude in CI is read-only on purpose. Ask it to "just fix it" and it will point you back to your local session. Deciding what an agent may do in each place is part of the setup.
+- The guardrails should come along too: the `.env` hook and the deny and ask rules in `.claude/settings.json`. Try "@claude-help show me .env.local" on an issue and check the run log to see for yourself.
+- Claude in CI is read-only on purpose. The prompt asks for it, and `--disallowedTools` in the workflow enforces it. Ask it to "just fix it" and it will point you back to your local session. Deciding what an agent may do in each place is part of the setup.

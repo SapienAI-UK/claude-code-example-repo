@@ -21,8 +21,6 @@
       "Bash(gh *)"
     ],
     "deny": [
-      "Read(./.env)",
-      "Read(./.env.local)",
       "Bash(rm -rf *)",
       "Bash(curl *)",
       "Bash(wget *)"
