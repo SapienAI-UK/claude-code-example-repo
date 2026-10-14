@@ -16,9 +16,9 @@ import { fileURLToPath } from "node:url";
 
 const ALLOWED = new Set([".env.example", ".env.local"]);
 
-// `.env` or `.env.something`, at the start or after a path separator, quote,
-// whitespace or shell operator. Avoids false hits like `process.env.FOO`.
-const ENV_FILE = /(?:^|[\s/\\"'`=<>(|;,*])(\.env(?:\.[\w-]+)*)/g;
+// `.env` or `.env.something`, in any case, not preceded by a word character or `$`
+// (avoids false hits like `process.env.FOO`) and not followed by one (`.envrc`).
+const ENV_FILE = /(?<![\w$])(\.env(?:\.[\w-]+)*)(?![\w-])/gi;
 
 const FIELDS = ["file_path", "path", "pattern", "glob", "command", "notebook_path"];
 

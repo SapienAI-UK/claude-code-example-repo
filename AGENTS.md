@@ -38,6 +38,7 @@ Next.js 16 (App Router, `src/proxy.ts`), TypeScript, React 19, plain CSS (`globa
 - **Done means green:** `npm test`, `npm run lint` and `npm run build` all pass.
 - When the user asks you to implement a named spec, satisfy every acceptance criterion and tick the boxes in that spec file.
 - Keep changes focused; don't refactor unrelated code.
+- **Code describes the present; git holds the history.** Let names and structure carry the *what*; comment only the *why* the code can't show (a constraint, a gotcha, a unit, a reference), as in `src/lib/poller.ts`. Anything that only makes sense to someone who saw the previous version belongs in the commit message.
 
 ## Web UI conventions
 
