@@ -48,6 +48,6 @@ An admin can fill the database with realistic synthetic history, so the trends p
 
 ## Watch for
 
-- When Claude opens files in `src/db/`, does it pick up `src/db/AGENTS.md` without being told? Does it then follow the link to `docs/database.md`?
+- When Claude opens files in `src/db/`, does it pick up `src/db/AGENTS.md` without being told? Does it then know the details in `docs/database.md`, which that file `@`-imports, without opening the guide?
 - Does the plan mention the database conventions (how synthetic rows are marked, batching, UTC) before writing code?
 - How does Claude decide where the new API route or server action goes, and does it follow the auth rule in `AGENTS.md`?

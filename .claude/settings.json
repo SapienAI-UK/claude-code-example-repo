@@ -18,12 +18,12 @@
       "Bash(npm install *)",
       "Bash(git commit *)",
       "Bash(git push *)",
-      "Bash(gh *)"
+      "Bash(gh *)",
+      "Bash(wget *)"
     ],
     "deny": [
       "Bash(rm -rf *)",
-      "Bash(curl *)",
-      "Bash(wget *)"
+      "Bash(curl *)"
     ]
   },
   "hooks": {

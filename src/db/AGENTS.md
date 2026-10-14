@@ -1,6 +1,6 @@
 # Database layer
 
-SQLite through Drizzle ORM. The full guide is in [docs/database.md](../../docs/database.md); read it before changing the schema or adding queries.
+SQLite through Drizzle ORM. Full guide: @../../docs/database.md
 
 Rules that always apply here:
 

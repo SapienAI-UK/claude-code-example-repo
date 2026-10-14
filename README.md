@@ -5,7 +5,7 @@
 
 Gapwatch is a small Next.js app that shows live London line status from the TfL API and analyses which lines are most often disrupted. The app is the excuse; the real subject is **how the repository is set up for Claude Code**:
 
-- layered project context: `AGENTS.md`, `@` imports, nested files, linked docs
+- layered project context: `AGENTS.md`, `@` imports, nested files, path-scoped rules, linked docs
 - a **skill** that loads automatically for UI work
 - two **subagents**: a read-only security reviewer and a test engineer
 - **permissions** and a **hook** that keep Claude away from secrets
@@ -66,20 +66,26 @@ A background poller (`src/instrumentation.ts` → `src/lib/poller.ts`) calls the
 ├── CLAUDE.md                      # one line: @AGENTS.md
 ├── AGENTS.md                      # project context: stack, commands, map, rules
 ├── docs/
-│   ├── web-ui.md                  # imported into AGENTS.md with @ (always loaded)
-│   ├── database.md                # linked from AGENTS.md (read on demand)
-│   └── tfl-api.md                 # linked from AGENTS.md (read on demand)
+│   ├── database.md                # linked from AGENTS.md; imported by src/db/AGENTS.md
+│   └── tfl-api.md                 # linked from AGENTS.md; imported by src/lib/tfl/AGENTS.md
 ├── src/
 │   ├── db/
 │   │   ├── CLAUDE.md              # one line: @AGENTS.md
-│   │   ├── AGENTS.md              # DB rules; loads when Claude works in src/db
+│   │   ├── AGENTS.md              # DB rules + @ database guide; loads when Claude works in src/db
 │   │   └── ...
 │   ├── app/                       # pages and API routes
-│   ├── lib/                       # auth, TfL client, poller
+│   ├── lib/
+│   │   ├── tfl/
+│   │   │   ├── CLAUDE.md          # one line: @AGENTS.md
+│   │   │   ├── AGENTS.md          # TfL rules + @ TfL guide; loads when Claude works in src/lib/tfl
+│   │   │   └── ...
+│   │   └── ...                    # auth, poller
 │   └── proxy.ts                   # redirects signed-out visitors
 ├── specs/                         # exercises written as specs
 ├── .claude/
 │   ├── settings.json              # permissions + hook registration (shared with the team)
+│   ├── rules/
+│   │   └── web-ui.md              # UI rules; path-scoped to src/app/**/*.tsx and *.css
 │   ├── hooks/
 │   │   ├── protect-env.mjs        # blocks access to .env files
 │   │   └── tests-only.mjs         # used by the test-engineer subagent
@@ -96,9 +102,10 @@ A background poller (`src/instrumentation.ts` → `src/lib/poller.ts`) calls the
 | File | Loaded when | Purpose |
 |------|-------------|---------|
 | `CLAUDE.md` → `AGENTS.md` | Every session start | What the project is, commands, where things live, rules |
-| `docs/web-ui.md` | Every session start (`@` import) | UI engineering conventions |
-| `src/db/CLAUDE.md` → `src/db/AGENTS.md` | When Claude reads or edits files in `src/db/` | Database rules |
-| `docs/database.md`, `docs/tfl-api.md` | When Claude decides it needs them (plain links) | Detailed guides |
+| `.claude/rules/web-ui.md` | When Claude reads or edits a `.tsx` or `.css` file in `src/app/` | UI engineering rules |
+| `src/db/CLAUDE.md` → `src/db/AGENTS.md` → `docs/database.md` | When Claude reads or edits files in `src/db/` | Database rules and guide |
+| `src/lib/tfl/CLAUDE.md` → `src/lib/tfl/AGENTS.md` → `docs/tfl-api.md` | When Claude reads or edits files in `src/lib/tfl/` | TfL rules and guide |
+| `docs/*.md` from anywhere else | When Claude decides it needs them (plain links in `AGENTS.md`) | Detailed guides |
 | `.claude/skills/brand-guidelines/SKILL.md` | When a task matches the skill's description (UI or copy work) | Brand rules |
 | `.claude/skills/brand-guidelines/references/*` | When the skill says to read them | Token values, components, voice |
 | `.claude/agents/*.md` | When Claude delegates to them, or you ask for one by name | Isolated helpers with their own tools and model |
@@ -113,27 +120,39 @@ Claude can't read your whole repository up front, and you wouldn't want it to: e
 flowchart LR
   A[Session starts] --> B[CLAUDE.md]
   B -->|"@AGENTS.md"| C[AGENTS.md]
-  C -->|"@docs/web-ui.md"| D[web-ui.md]
+  C -.->|link| D[docs/*.md]
+  M[Claude edits src/app/page.tsx] --> N[.claude/rules/web-ui.md]
   E[Claude edits src/db/schema.ts] --> F[src/db/AGENTS.md]
-  F -.->|link| G[docs/database.md]
+  F -->|"@ import"| G[docs/database.md]
+  P[Claude edits src/lib/tfl/parse.ts] --> Q[src/lib/tfl/AGENTS.md]
+  Q -->|"@ import"| R[docs/tfl-api.md]
   H[Task: restyle the board] --> I[brand-guidelines skill]
   I -.->|link| J[references/tokens.md]
   K[Task: security audit] --> L[security-reviewer subagent]
 ```
 
-There are three mechanisms. This repo uses all of them so you can compare:
+There are four mechanisms. This repo uses all of them so you can compare:
 
 | Mechanism | Example here | When it loads | Use it for |
 |-----------|--------------|---------------|------------|
-| **`@` import** | `AGENTS.md` → `@docs/web-ui.md` | **Always**, at session start, inlined into the parent file | Splitting a long file into readable parts. It's **not** lazy, so keep imported files short. |
-| **Nested file** | `src/db/AGENTS.md` | When Claude works on files in that folder | Rules that only matter in one area of the codebase |
-| **Plain link** | "see [docs/database.md](docs/database.md)" | Only if Claude decides to read it | Long reference material |
+| **`@` import** | `CLAUDE.md` → `@AGENTS.md` | Together with the file that contains it, inlined. In a root file that means **always**, at session start | Pulling one file into another. It's only as lazy as its parent, so keep root imports short. Paths resolve from the importing file. |
+| **Nested file** | `src/db/AGENTS.md`, `src/lib/tfl/AGENTS.md` | When Claude works on files in that folder | Rules that only matter in one area of the codebase |
+| **Path-scoped rule** | `.claude/rules/web-ui.md` with `paths:` frontmatter | When Claude reads or edits a file matching one of its globs | Rules tied to a kind of file rather than one folder. Claude Code only, so other agents need a plain link too. |
+| **Plain link** | "[docs/tfl-api.md](docs/tfl-api.md)" in `AGENTS.md` | Only if Claude decides to read it | Long reference material |
+
+**The pattern: rules vs guides.**
+- **Guides** (long explanations, tables, how-tos) live in `docs/`. The root `AGENTS.md` links to them, so any agent knows they exist.
+- **Rules** (short, always-apply instructions) live next to the code and load automatically:
+  - **by folder:** a nested `AGENTS.md` (`src/db/`, `src/lib/tfl/`). It also `@`-imports its guide, so Claude gets the guide whenever it works in that folder.
+  - **by kind of file:** a path-scoped rule (`.claude/rules/web-ui.md`).
+
+> **Gotcha:** an `@` import inside a path-scoped rule is expanded at **session start**, not when the rule's paths match. Only the rule's own body is lazy. So put a rule's content in the rule itself rather than importing it from elsewhere.
 
 Skills and subagents add two more layers:
 - A **skill** is loaded only when the task matches its `description`, and its reference files only when the skill points to them.
 - A **subagent** runs in its own separate context, so its exploration doesn't fill up yours.
 
-> **Why `CLAUDE.md` *and* `AGENTS.md`?** `AGENTS.md` is the cross-tool convention many coding agents read. By default, Claude Code reads `CLAUDE.md` and only falls back to `AGENTS.md` when a project has no `CLAUDE.md` (the "Project instructions" setting can make it read both). A one-line `CLAUDE.md` containing `@AGENTS.md` keeps a single source of truth that works for every tool. The same trick is used in `src/db/`.
+> **Why `CLAUDE.md` *and* `AGENTS.md`?** `AGENTS.md` is the cross-tool convention many coding agents read. By default, Claude Code reads `CLAUDE.md` and only falls back to `AGENTS.md` when a project has no `CLAUDE.md` (the "Project instructions" setting can make it read both). A one-line `CLAUDE.md` containing `@AGENTS.md` keeps a single source of truth that works for every tool. The same trick is used in `src/db/` and `src/lib/tfl/`.
 
 ## Guardrails
 
@@ -220,7 +239,7 @@ Usage counts against your own subscription's limits. Treat the token like a pass
 A checklist you can take away:
 
 - [ ] **Start a `CLAUDE.md` (or `AGENTS.md` plus a one-line `CLAUDE.md`).** Keep it short: what the project is, how to run, test and lint it, where things live, and the handful of rules that really matter. Run `/init` for a first draft.
-- [ ] **Move detail out.** Put area-specific rules in nested files next to the code, and long guides in `docs/` behind plain links. Use `@` imports only for things that should always be loaded.
+- [ ] **Move detail out.** Put long guides in `docs/` and link them from the root file. Put area-specific rules in nested files next to the code, which can `@`-import that area's guide. Put rules for a kind of file (UI components, tests) in `.claude/rules/` with `paths:`, and write them out in full there. Keep `@` imports in the root file for things that should always be loaded.
 - [ ] **Document your environment** in `.env.example`, so humans and agents never need to see the real values.
 - [ ] **Add permission rules** to `.claude/settings.json`:
   - `allow` your test, lint and build commands

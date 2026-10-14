@@ -11,7 +11,7 @@ Turn the deliberately plain UI into the Gapwatch brand: calm, legible, and with 
 - Global styles: `src/app/globals.css`; page styles in `*.module.css`
 - Layout and header: `src/app/layout.tsx`, `src/app/Header.tsx`
 - Live board: `src/app/LiveBoard.tsx`; trends: `src/app/trends/`
-- UI engineering conventions: `docs/web-ui.md`
+- UI engineering conventions: `.claude/rules/web-ui.md`
 
 ## Requirements
 

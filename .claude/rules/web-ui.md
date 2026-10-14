@@ -1,3 +1,9 @@
+---
+paths:
+  - "src/app/**/*.tsx"
+  - "src/app/**/*.css"
+---
+
 How we build the UI. This file covers engineering conventions only. For how Gapwatch should *look and sound* (colours, type, status badges, copy), use the `brand-guidelines` skill.
 
 - **Server components by default.** Pages read data directly from `src/db/queries/*` on the server. Add `"use client"` only for interactivity (forms with state, timers, buttons that call APIs), and keep those components small.
