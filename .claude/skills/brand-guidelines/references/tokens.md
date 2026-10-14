@@ -1,6 +1,6 @@
 # Design tokens
 
-Define these once at the top of `src/app/globals.css`, then use `var(--gw-...)` everywhere.
+The hex values are the brand palette for any medium (slides, documents, web). On the web, define them once in the global stylesheet, then use `var(--gw-...)` everywhere.
 
 ```css
 :root {
@@ -31,7 +31,7 @@ Define these once at the top of `src/app/globals.css`, then use `var(--gw-...)` 
   --gw-space-8: 32px;
 
   /* Type */
-  --gw-font: var(--font-atkinson), system-ui, sans-serif;
+  --gw-font: "Atkinson Hyperlegible", system-ui, sans-serif;
   --gw-text-sm: 0.875rem;
   --gw-text-base: 1rem;
   --gw-text-lg: 1.25rem;
@@ -41,7 +41,7 @@ Define these once at the top of `src/app/globals.css`, then use `var(--gw-...)` 
 
 ## Typography
 
-- **Typeface:** [Atkinson Hyperlegible](https://fonts.google.com/specimen/Atkinson+Hyperlegible), designed for maximum legibility. Load it with `next/font/google` in `src/app/layout.tsx`, weights 400 and 700, `variable: "--font-atkinson"`, and add the variable class to `<html>`.
+- **Typeface:** [Atkinson Hyperlegible](https://fonts.google.com/specimen/Atkinson+Hyperlegible), designed for maximum legibility. Weights 400 and 700 only. Where it isn't available (for example in some slide tools), use the system sans-serif.
 - Body is 1rem/1.5. Headings are bold, in `--gw-ink`, no all-caps.
 - Numbers in tables and charts use `font-variant-numeric: tabular-nums` so columns line up.
 
@@ -55,7 +55,7 @@ Define these once at the top of `src/app/globals.css`, then use `var(--gw-...)` 
 | suspended | `--gw-suspended` | `--gw-suspended-bg` | ⊘ no-entry | Suspended, Part suspended |
 | closed | `--gw-closed` | `--gw-closed-bg` | ☾ moon | Closed, Planned closure |
 
-All text/background pairs above meet WCAG AA. Categories come from `categorise()` in `src/lib/tfl/severity.ts`; don't re-derive them in components.
+All text/background pairs above meet WCAG AA.
 
 ## TfL line colours (identification only)
 

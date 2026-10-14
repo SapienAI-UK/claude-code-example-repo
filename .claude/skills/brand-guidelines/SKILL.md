@@ -1,6 +1,6 @@
 ---
 name: brand-guidelines
-description: Gapwatch brand guidelines covering colours, typography, status badges, line identifiers, charts and tone of voice. Use whenever creating or changing Gapwatch UI (pages, components, CSS, charts, empty states) or writing any user-facing text such as status messages, errors, labels or buttons.
+description: Gapwatch brand guidelines covering colours, typography, status badges, line identifiers, charts, tone of voice and UK formatting. Use whenever making anything that carries the Gapwatch brand (app or web UI, restyling or reviewing a UI, slides, documents, charts) or writing user-facing text such as status messages, errors, labels or buttons.
 ---
 
 # Gapwatch brand guidelines
@@ -13,7 +13,7 @@ Gapwatch helps London commuters decide, at a glance, whether their journey is OK
 2. **Never colour alone.** Every status shows an icon **and** a text label as well as its colour. Users may be colour-blind, in bright sunlight, or on a greyscale e-reader.
 3. **Status colours ≠ line colours.** The four status colours (plus neutral "closed") are only used for status. TfL line colours are only used to *identify* a line (a small stripe or dot), never to signal status.
 4. **Contrast:** all text meets WCAG AA (4.5:1 for body text, 3:1 for large text and icons).
-5. **Use the tokens.** All colours, radii and spacing come from CSS custom properties defined once in `src/app/globals.css` (`--gw-*`). No raw hex values in components.
+5. **Use the tokens.** All colours, radii and spacing come from the brand tokens (`--gw-*`). On the web, define them once as CSS custom properties and reference them everywhere else.
 6. **Calm voice.** Plain British English, specific, no exclamation marks, no emoji, no jokes about delays.
 
 ## When to read the reference files
@@ -24,7 +24,7 @@ Gapwatch helps London commuters decide, at a glance, whether their journey is OK
 
 ## Quick checklist before you finish
 
-- [ ] Tokens defined in `globals.css` and used everywhere (search for stray `#` hex values)
+- [ ] Every colour comes from the tokens (on the web: defined once, no stray `#` hex values elsewhere)
 - [ ] Every status badge has an icon, a label, and a status colour
 - [ ] Line colours appear only as identifiers
 - [ ] Copy follows the voice guide

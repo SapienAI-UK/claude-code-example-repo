@@ -12,7 +12,8 @@ Gapwatch talks like a calm, well-informed station supervisor: plain, specific an
 
 ## Formats
 
-- Times: 24-hour, "08:14". Dates: "Mon 6 Oct".
+- Times: 24-hour, "08:14". Dates: "Mon 6 Oct". Say which time zone when it isn't obvious ("Times are UTC").
+- Numbers: UK style, "1,234". Money in pounds: "£2.80".
 - Line names as TfL writes them: "Elizabeth line", "Hammersmith & City", "DLR".
 - Percentages: "14%" (no decimals in the UI).
 

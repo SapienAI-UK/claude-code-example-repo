@@ -102,11 +102,11 @@ A background poller (`src/instrumentation.ts` → `src/lib/poller.ts`) calls the
 | File | Loaded when | Purpose |
 |------|-------------|---------|
 | `CLAUDE.md` → `AGENTS.md` | Every session start | What the project is, commands, where things live, rules |
-| `.claude/rules/web-ui.md` | When Claude reads or edits a `.tsx` or `.css` file in `src/app/` | UI engineering rules |
+| `.claude/rules/web-ui.md` | When Claude reads or edits a `.tsx` or `.css` file in `src/app/` | How UI is built in this repo |
 | `src/db/CLAUDE.md` → `src/db/AGENTS.md` → `docs/database.md` | When Claude reads or edits files in `src/db/` | Database rules and guide |
 | `src/lib/tfl/CLAUDE.md` → `src/lib/tfl/AGENTS.md` → `docs/tfl-api.md` | When Claude reads or edits files in `src/lib/tfl/` | TfL rules and guide |
 | `docs/*.md` from anywhere else | When Claude decides it needs them (plain links in `AGENTS.md`) | Detailed guides |
-| `.claude/skills/brand-guidelines/SKILL.md` | When a task matches the skill's description (UI or copy work) | Brand rules |
+| `.claude/skills/brand-guidelines/SKILL.md` | When a task matches the skill's description (UI, slides, documents, copy) | Brand rules, portable beyond this repo |
 | `.claude/skills/brand-guidelines/references/*` | When the skill says to read them | Token values, components, voice |
 | `.claude/agents/*.md` | When Claude delegates to them, or you ask for one by name | Isolated helpers with their own tools and model |
 | `.claude/settings.json` | Always, by the Claude Code harness | Permissions and hooks |
@@ -151,6 +151,12 @@ There are four mechanisms. This repo uses all of them so you can compare:
 Skills and subagents add two more layers:
 - A **skill** is loaded only when the task matches its `description`, and its reference files only when the skill points to them.
 - A **subagent** runs in its own separate context, so its exploration doesn't fill up yours.
+
+> **Rule or skill?** UI work here touches both, and they split cleanly:
+> - The **`brand-guidelines` skill** is the *portable* brand: colours, type, components, voice, UK formatting. It names no files from this repo, so the same skill works in Claude chat for slides or documents.
+> - The **`web-ui` rule** is *how this repo builds UI*: server components, auth, where the tokens live, which helper decides a status.
+>
+> The rule doesn't mention the skill. Claude picks the skill from its `description` when a task is about the brand ("let's revisit the UI"). Exercise 02 lets you watch that happen.
 
 > **Why `CLAUDE.md` *and* `AGENTS.md`?** `AGENTS.md` is the cross-tool convention many coding agents read. By default, Claude Code reads `CLAUDE.md` and only falls back to `AGENTS.md` when a project has no `CLAUDE.md` (the "Project instructions" setting can make it read both). A one-line `CLAUDE.md` containing `@AGENTS.md` keeps a single source of truth that works for every tool. The same trick is used in `src/db/` and `src/lib/tfl/`.
 

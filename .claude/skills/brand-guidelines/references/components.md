@@ -6,9 +6,8 @@ The single most important component. Used on the live board and anywhere a statu
 
 - A pill (`--gw-radius-pill`) with the status background, the status colour for text and icon, `--gw-space-1` vertical and `--gw-space-3` horizontal padding, `--gw-text-sm`, bold.
 - Structure: `[icon] Label`. The icon is decorative (`aria-hidden="true"`), and the label carries the meaning.
-- Use inline SVG icons (16px, `currentColor`) so they inherit the status colour. Simple shapes are fine; no icon library is needed.
+- Icons are simple shapes, 16px, in the status colour. On the web, inline SVG with `currentColor` does this without an icon library.
 - Labels use sentence case ("Minor delays", not "Minor Delays"), even though TfL sends title case.
-- Build it once as a component (e.g. `src/app/components/StatusBadge.tsx`) that takes a severity and uses `categorise()`.
 
 ```
  ┌──────────────────┐
@@ -36,7 +35,7 @@ The single most important component. Used on the live board and anywhere a statu
 
 ## Charts (trends page)
 
-- Simple horizontal bars, built with CSS. No chart library needed.
+- Simple horizontal bars.
 - Bars use `--gw-accent`. Don't use status colours for aggregates; a percentage isn't a status.
 - Always show the value as text next to the bar ("14%").
 - Label the time basis ("Times are UTC") near the chart.
