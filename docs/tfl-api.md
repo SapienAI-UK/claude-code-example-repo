@@ -33,7 +33,7 @@ A trimmed real response lives in `tests/fixtures/tfl-status.json`.
 
 - The API works **without a key**, but anonymous requests are rate-limited more tightly.
 - A free **app key** from https://api-portal.tfl.gov.uk raises the limit. It's sent as the `app_key` query parameter.
-- `TFL_APP_KEY` is documented in `.env.example`. The client doesn't send it yet (see `specs/06-tfl-api-key.md`).
+- `TFL_APP_KEY` is documented in `.env.example`. The client doesn't send it yet.
 - The key must only ever be used server-side.
 
 Polling every 2 minutes is about 720 requests a day, comfortably within anonymous limits.

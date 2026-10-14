@@ -23,19 +23,20 @@ Next.js 16 (App Router, `src/proxy.ts`), TypeScript, React 19, plain CSS (`globa
 - `src/lib/poller.ts` and `src/instrumentation.ts`: the 2-minute background poll
 - `src/db/`: schema, connection and queries (has its own `AGENTS.md`)
 - `src/proxy.ts`: redirects signed-out visitors to `/login`
-- `specs/`: exercises written as specs. Work from these when asked to implement one.
+- `specs/`: training exercises for people. Not a source of truth about the code: don't read them unless the user names one.
 - `docs/`: longer guides. Read them when the task needs them (see "Further reading").
 
 ## Environment
 
-Every variable the app reads is documented in `.env.example`. Use it to learn variable names and meanings.
+- `.env.example` documents every variable the app reads (names, meanings, valid values).
+- `.env.local` holds this machine's current values.
 
 ## Rules
 
 - **Every API route handler calls `requireRole()`** with the minimum role it needs, before doing any work. Every page calls `requirePageRole()`. Don't rely on `src/proxy.ts` for authorisation.
 - **Secrets stay on the server.** Never expose a secret through a `NEXT_PUBLIC_` variable, a client component, or an API response.
 - **Done means green:** `npm test`, `npm run lint` and `npm run build` all pass.
-- When implementing a spec, satisfy every acceptance criterion and tick the boxes in the spec file.
+- When the user asks you to implement a named spec, satisfy every acceptance criterion and tick the boxes in that spec file.
 - Keep changes focused; don't refactor unrelated code.
 
 ## Web UI conventions

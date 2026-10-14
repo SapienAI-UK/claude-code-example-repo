@@ -33,7 +33,7 @@ One row per line per poll. The poller inserts a full set (about 19 lines for the
 
 ## Synthetic (demo) data
 
-Real history takes weeks to build up, so demo data may be generated (see `specs/01-demo-history.md`). Conventions:
+Real history takes weeks to build up, so demo data may be generated. Conventions:
 
 - Every generated row sets `is_synthetic = true`.
 - Generated rows mimic real polling: one row per line every 2 minutes, real line ids and names, and plausible severities and reasons.

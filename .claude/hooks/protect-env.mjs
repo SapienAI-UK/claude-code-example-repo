@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 /**
- * PreToolUse hook: stops Claude from reading or touching secret env files.
+ * PreToolUse hook: stops Claude from reading or touching env files that hold secrets.
  *
  * Claude Code sends the pending tool call as JSON on stdin. We look at every
  * field that can name a file or run a command, and deny the call if it
- * mentions `.env`, `.env.local` or any other `.env.*` file, except the
- * documented template `.env.example`.
+ * mentions a `.env` or `.env.*` file that isn't listed in ALLOWED below.
  *
  * Why a hook as well as `permissions.deny`? Deny rules match tool + path
  * patterns. A hook is code: it sees every tool (including shell commands in
@@ -15,7 +14,7 @@ import { appendFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const ALLOWED = new Set([".env.example"]);
+const ALLOWED = new Set([".env.example", ".env.local"]);
 
 // `.env` or `.env.something`, at the start or after a path separator, quote,
 // whitespace or shell operator. Avoids false hits like `process.env.FOO`.
