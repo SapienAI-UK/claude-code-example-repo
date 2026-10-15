@@ -7,7 +7,7 @@ Gapwatch is a small Next.js app that shows live London line status from the TfL 
 
 - layered project context: `AGENTS.md`, `@` imports, nested files, path-scoped rules, linked docs
 - a **skill** that loads automatically for UI work
-- two **subagents**: a read-only security reviewer and a test engineer
+- three **subagents**: a read-only security reviewer, a test engineer and a spec judge
 - **permissions** and a **hook** that keep Claude away from secrets
 - **specs** that turn exercises into agent-ready tasks
 - **GitHub Actions** so you can `@claude-help` on issues and pull requests
@@ -90,12 +90,14 @@ A background poller (`src/instrumentation.ts` → `src/lib/poller.ts`) calls the
 │   │   └── web-ui.md              # UI rules; path-scoped to src/app/**/*.tsx and *.css
 │   ├── hooks/
 │   │   ├── protect-env.mjs        # blocks access to .env files
-│   │   └── tests-only.mjs         # used by the test-engineer subagent
+│   │   ├── tests-only.mjs         # used by the test-engineer subagent
+│   │   └── judge-read-only.mjs    # used by the spec-judge subagent
 │   ├── skills/
 │   │   └── brand-guidelines/      # SKILL.md + references/ (loaded for UI work)
 │   └── agents/
 │       ├── security-reviewer.md   # read-only reviewer
-│       └── test-engineer.md       # writes and runs tests
+│       ├── test-engineer.md       # writes and runs tests
+│       └── spec-judge.md          # marks a change against its spec's acceptance criteria
 ├── .github/workflows/             # Claude GitHub Action (claude-actions.yaml)
 ├── .env.example                   # documented list of every env variable
 └── .env.local                     # placeholder secrets (committed here only for training)
@@ -183,7 +185,7 @@ Two layers protect this repo, configured in [`.claude/settings.json`](.claude/se
 
 **Instructions guide; hooks enforce.** Notice that `AGENTS.md` doesn't say "never read `.env.local`". It just points to `.env.example`. An instruction in a context file is advice the model usually follows. A hook runs in the harness and **always** applies, whatever the model decides.
 
-A subagent can carry its **own** hooks: [`test-engineer.md`](.claude/agents/test-engineer.md) registers `tests-only.mjs` in its frontmatter, so it can write tests but not application code.
+A subagent can carry its **own** hooks: [`test-engineer.md`](.claude/agents/test-engineer.md) registers `tests-only.mjs` in its frontmatter, so it can write tests but not application code. [`spec-judge.md`](.claude/agents/spec-judge.md) does the same with `judge-read-only.mjs`, so it can run the checks and read git but change nothing.
 
 ---
 
@@ -200,7 +202,7 @@ Each exercise is a spec in [`specs/`](specs/). Open it, read the goal, then use 
 7. **[Hooks: block before, react after](specs/07-hooks.md)**: a PreToolUse hook enforces what a rule can't; a PostToolUse hook lints every edit
 8. **[Add bus routes](specs/08-bus-routes.md)**: interview, plan to file, tests first, a Stop hook gate, fresh-session review
 9. **[Demo data](specs/09-demo-data.md)** (optional): history and shared-cause scenarios on demand, with live polling paused
-10. **[Linked disruptions](specs/10-linked-disruptions.md)**: the same flow again on a data-model feature
+10. **[Linked disruptions](specs/10-linked-disruptions.md)**: the same flow on a data-model feature, judged by the spec-judge subagent
 11. **[Security audit](specs/11-security-audit.md)**: a read-only subagent; filing GitHub issues
 12. **[Fix findings test first, two at once](specs/12-fix-findings-test-first.md)**: the test-engineer subagent, red/green, worktrees
 13. **[Use the TfL app key](specs/13-tfl-api-key.md)**: server-side secrets

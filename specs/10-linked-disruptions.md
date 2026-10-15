@@ -1,6 +1,6 @@
 # 10 · Linked disruptions
 
-**Shows:** planning with an interview, a plan saved to a file, tests first, a Stop hook as a quality gate, review in a fresh session, schema changes through migrations
+**Shows:** planning with an interview, a plan saved to a file, tests first, a Stop hook as a quality gate, a judge subagent with a rubric, schema changes through migrations
 
 ## Goal
 
@@ -13,6 +13,7 @@ Show when several lines share one cause, for example a single signal failure tha
 - Admin page: `src/app/admin/`; live board: `src/app/LiveBoard.tsx`
 - The auth rules: `AGENTS.md`
 - Hooks documentation (Stop hooks): https://code.claude.com/docs/en/hooks
+- The judge: `.claude/agents/spec-judge.md`
 
 **Prerequisites:**
 
@@ -37,7 +38,7 @@ Show when several lines share one cause, for example a single signal failure tha
 - [ ] The schema change is a new migration
 - [ ] Tests cover the matching rule and were written before it
 - [ ] The Stop hook sent Claude back at least once
-- [ ] A fresh session has marked every acceptance criterion met or not met, with evidence
+- [ ] The spec-judge has marked every acceptance criterion pass or fail, with evidence, and given a verdict
 - [ ] `npm test`, `npm run lint` and `npm run build` pass
 
 ## Out of scope
@@ -52,11 +53,12 @@ Use the same flow as exercise 08, **including grill-me: interview first, then pl
 1. **Gate.** Check the Stop hook from exercise 08 is in `.claude/settings.json`. If not: "Add a Stop hook to .claude/settings.json that runs the tests when you finish, and sends you back to work if they fail."
 2. **Plan.** In plan mode: "Use grill-me to interview me about specs/10-linked-disruptions.md, then plan it. Add your answers and the plan to specs/10-linked-disruptions.md, under a new '## Plan' section."
 3. **Build.** `/clear`, then: "Implement specs/10-linked-disruptions.md, following its Plan section. Tests first: have the test-engineer write failing tests for the matching rule before you change app code."
-4. **Review.** In a **new** session: "Review the linked disruptions work against specs/10-linked-disruptions.md. For each acceptance criterion, say met or not met, with evidence. Don't change any code."
+4. **Judge.** "Use the spec-judge agent to review this work against specs/10-linked-disruptions.md."
 
 ## Watch for
 
 - Does grill-me ask different questions for a data-model feature than it did for bus routes?
+- Exercise 08 used a fresh session to review; here a subagent with a rubric does the job in its own context. What does the rubric add? Which Bash commands does its hook allow, and why does a judge need Bash at all?
 - The Stop hook you built in exercise 08 now guards this build without anyone mentioning it.
 - When Claude adds the table, does it follow the migration rules in `src/db/AGENTS.md` (never edit an existing migration)?
 - Does the new API route call `requireRole("admin")` before doing any work?
