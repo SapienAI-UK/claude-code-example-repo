@@ -1,4 +1,4 @@
-# 13 · Use the TfL app key when there is one
+# 14 · Use the TfL app key when there is one
 
 **Shows:** working with blocked secrets, server-side-only config
 
@@ -35,7 +35,7 @@ Use a TfL app key, if one is configured, for higher rate limits, while the app k
 
 ## Try it
 
-> "Implement specs/13-tfl-api-key.md."
+> "Implement specs/14-tfl-api-key.md."
 
 To try it for real, register at https://api-portal.tfl.gov.uk and paste your key into `.env.local` **yourself**.
 

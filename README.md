@@ -7,7 +7,7 @@ Gapwatch is a small Next.js app that shows live London line status from the TfL 
 
 - layered project context: `AGENTS.md`, `@` imports, nested files, path-scoped rules, linked docs
 - a **skill** that loads automatically for UI work
-- three **subagents**: a read-only security reviewer, a test engineer and a spec judge
+- four **subagents**: a read-only security reviewer, a test engineer, a spec judge and a docs researcher
 - **permissions** and a **hook** that keep Claude away from secrets
 - **specs** that turn exercises into agent-ready tasks
 - **GitHub Actions** so you can `@claude-help` on issues and pull requests
@@ -97,7 +97,8 @@ A background poller (`src/instrumentation.ts` → `src/lib/poller.ts`) calls the
 │   └── agents/
 │       ├── security-reviewer.md   # read-only reviewer
 │       ├── test-engineer.md       # writes and runs tests
-│       └── spec-judge.md          # marks a change against its spec's acceptance criteria
+│       ├── spec-judge.md          # marks a change against its spec's acceptance criteria
+│       └── docs-researcher.md     # answers a docs question in a few sourced lines
 ├── .github/workflows/             # Claude GitHub Action (claude-actions.yaml)
 ├── .env.example                   # documented list of every env variable
 └── .env.local                     # placeholder secrets (committed here only for training)
@@ -203,11 +204,12 @@ Each exercise is a spec in [`specs/`](specs/). Open it, read the goal, then use 
 8. **[Add bus routes](specs/08-bus-routes.md)**: interview, plan to file, tests first, a Stop hook gate, fresh-session review
 9. **[Demo data](specs/09-demo-data.md)** (optional): history and shared-cause scenarios on demand, with live polling paused
 10. **[Linked disruptions](specs/10-linked-disruptions.md)**: the same flow on a data-model feature, judged by the spec-judge subagent
-11. **[Security audit](specs/11-security-audit.md)**: a read-only subagent; filing GitHub issues
-12. **[Fix findings test first, two at once](specs/12-fix-findings-test-first.md)**: the test-engineer subagent, red/green, worktrees
-13. **[Use the TfL app key](specs/13-tfl-api-key.md)**: server-side secrets
-14. **[Claude in GitHub](specs/14-claude-in-github.md)**: `@claude-help` to refine an issue and review your pull request
-15. **[Write your own spec](specs/15-write-a-spec.md)**: spec-driven development from the other side
+11. **[Work in parallel](specs/11-work-in-parallel.md)**: a docs subagent, two worktree subagents building rival designs, rewind, a final judge run
+12. **[Security audit](specs/12-security-audit.md)**: a read-only subagent; filing GitHub issues
+13. **[Fix findings test first, two at once](specs/13-fix-findings-test-first.md)**: the test-engineer subagent, red/green, worktrees
+14. **[Use the TfL app key](specs/14-tfl-api-key.md)**: server-side secrets
+15. **[Claude in GitHub](specs/15-claude-in-github.md)**: `@claude-help` to refine an issue and review your pull request
+16. **[Write your own spec](specs/16-write-a-spec.md)**: spec-driven development from the other side
 
 New specs follow [`specs/_template.md`](specs/_template.md).
 
@@ -269,4 +271,4 @@ A checklist you can take away:
 
 ## About the flaws
 
-The codebase contains several intentional security weaknesses of the kind that turn up in real projects. They exist so exercise 11 has something to find. The answers aren't in this repository, which is deliberate: anything committed here is visible to Claude too.
+The codebase contains several intentional security weaknesses of the kind that turn up in real projects. They exist so exercise 12 has something to find. The answers aren't in this repository, which is deliberate: anything committed here is visible to Claude too.

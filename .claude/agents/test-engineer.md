@@ -3,6 +3,7 @@ name: test-engineer
 description: Writes and runs Vitest tests for Gapwatch. Use to cover a spec's acceptance criteria with tests, to add a regression test for a bug before it is fixed, or to check that a change is covered. Writes test files only; reports bugs in app code instead of fixing them.
 tools: Read, Grep, Glob, Write, Edit, Bash
 model: sonnet
+effort: medium
 hooks:
   PreToolUse:
     - matcher: "Write|Edit|MultiEdit|Bash"

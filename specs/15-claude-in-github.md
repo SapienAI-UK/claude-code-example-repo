@@ -1,4 +1,4 @@
-# 14 · Claude in GitHub
+# 15 · Claude in GitHub
 
 **Shows:** Claude Code GitHub Actions, project context reused in CI
 
@@ -10,7 +10,7 @@ Use Claude from GitHub around a fix you make locally: `@claude-help` refines an 
 
 - Claude workflow: `.github/workflows/claude-actions.yaml` (read-only: it comments, never changes code)
 - Setup steps: "GitHub Actions" section of the README
-- Issues from exercise 11
+- Issues from exercise 12
 
 ## Requirements
 

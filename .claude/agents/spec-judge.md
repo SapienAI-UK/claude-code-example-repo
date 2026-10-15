@@ -3,6 +3,7 @@ name: spec-judge
 description: Reviews a change against its spec. Use after a build.
 tools: Read, Grep, Glob, Bash
 model: opus
+effort: high
 hooks:
   PreToolUse:
     - matcher: "Bash"
