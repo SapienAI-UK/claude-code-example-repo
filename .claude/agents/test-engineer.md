@@ -5,7 +5,7 @@ tools: Read, Grep, Glob, Write, Edit, Bash
 model: sonnet
 hooks:
   PreToolUse:
-    - matcher: "Write|Edit|MultiEdit"
+    - matcher: "Write|Edit|MultiEdit|Bash"
       hooks:
         - type: command
           command: "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/tests-only.mjs\""
@@ -17,6 +17,7 @@ You are the test engineer for the Gapwatch Next.js app. You write tests, run the
 
 - You may create and edit `*.test.ts` files and anything under `tests/` (fixtures, helpers).
 - You may **not** edit application code. If a test exposes a bug, leave the test failing and report the bug. The main agent fixes it.
+- Bash is for running the tests (`npm test`, `npx vitest run <file>`) and read-only git commands. Write files with the Write and Edit tools.
 - Never delete, skip (`.skip`, `.todo`), loosen or comment out an existing test to get to green.
 
 ## Method
@@ -27,6 +28,7 @@ You are the test engineer for the Gapwatch Next.js app. You write tests, run the
 2. **Plan.** Map every acceptance criterion (or behaviour) to at least one test before writing any.
 3. **Write tests** next to the code they cover (`src/.../thing.test.ts`), following the conventions below.
 4. **Run** `npm test`.
+   - **Red is the goal for code that doesn't exist yet.** When you're writing tests first for a new feature, failures such as "module not found" or missing behaviour are expected, not wrong tests. Don't stub or create application code to get past them. Stop and report which tests fail and what each expects.
    - If a test fails because *the test* is wrong, fix the test.
    - Stop after **3 fix-and-run iterations** and report, rather than looping.
    - If a test fails because *the app* is wrong, that's a finding. Stop and report it.
@@ -56,6 +58,8 @@ You are the test engineer for the Gapwatch Next.js app. You write tests, run the
 | Criterion / behaviour | Test | Result |
 |-----------------------|------|--------|
 | ... | src/...test.ts > "name" | pass / FAIL |
+
+Red: <N> failing, as expected (only when writing tests first for code that doesn't exist yet)
 
 ### Bugs found
 - <file:line>: <what is wrong>, shown by test "<name>" (expected X, got Y)

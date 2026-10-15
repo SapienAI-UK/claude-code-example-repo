@@ -37,6 +37,7 @@ Show when several lines share one cause, for example a single signal failure tha
 - [ ] Confirmed links appear on the live board; dismissed ones don't
 - [ ] The schema change is a new migration
 - [ ] Tests cover the matching rule and were written before it
+- [ ] No test was removed, skipped or loosened to get to green
 - [ ] The Stop hook sent Claude back at least once
 - [ ] The spec-judge has marked every acceptance criterion pass or fail, with evidence, and given a verdict
 - [ ] `npm test`, `npm run lint` and `npm run build` pass
@@ -52,7 +53,7 @@ Use the same flow as exercise 08, **including grill-me: interview first, then pl
 
 1. **Gate.** Check the Stop hook from exercise 08 is in `.claude/settings.json`. If not: "Add a Stop hook to .claude/settings.json that runs the tests when you finish, and sends you back to work if they fail."
 2. **Plan.** In plan mode: "Use grill-me to interview me about specs/10-linked-disruptions.md, then plan it. Add your answers and the plan to specs/10-linked-disruptions.md, under a new '## Plan' section."
-3. **Build.** `/clear`, then: "Implement specs/10-linked-disruptions.md, following its Plan section. Tests first: have the test-engineer write failing tests for the matching rule before you change app code."
+3. **Build, test first.** `/clear`, then: "Have the test-engineer write failing tests for the matching rule. Then implement specs/10-linked-disruptions.md, following its Plan section, until every test passes. Don't change the tests." Watch for red before green: the test-engineer's report should say its tests fail as expected (the feature isn't built yet), and the Stop hook's output shows them failing until the build catches up.
 4. **Judge.** "Use the spec-judge agent to review this work against specs/10-linked-disruptions.md."
 
 ## Watch for
@@ -60,6 +61,7 @@ Use the same flow as exercise 08, **including grill-me: interview first, then pl
 - Does grill-me ask different questions for a data-model feature than it did for bus routes?
 - Exercise 08 used a fresh session to review; here a subagent with a rubric does the job in its own context. What does the rubric add? Which Bash commands does its hook allow, and why does a judge need Bash at all?
 - The Stop hook you built in exercise 08 now guards this build without anyone mentioning it.
+- Did the test-engineer stop at red, or try to get past it? What would have stopped it?
 - When Claude adds the table, does it follow the migration rules in `src/db/AGENTS.md` (never edit an existing migration)?
 - Does the new API route call `requireRole("admin")` before doing any work?
 - Real TfL data rarely contains shared causes. How does the test-engineer get test data that does?

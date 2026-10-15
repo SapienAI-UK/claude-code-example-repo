@@ -33,6 +33,7 @@ Turn on London buses, then make the board and trends usable with hundreds of rou
 - [ ] Trends support filtering by mode
 - [ ] Storage impact and mitigation are written up in `docs/database.md`
 - [ ] Tests cover the new filtering and grouping logic, and were written before the code they test
+- [ ] No test was removed, skipped or loosened to get to green
 - [ ] The Stop hook stops Claude finishing while tests fail (you've seen it send Claude back at least once)
 - [ ] A fresh session has marked every acceptance criterion met or not met, with evidence
 - [ ] `npm test`, `npm run lint` and `npm run build` pass
@@ -47,7 +48,7 @@ Turn on London buses, then make the board and trends usable with hundreds of rou
 1. **Turn on buses.** Add `bus` to `TFL_MODES` in `.env.local` (do it yourself if you've done exercise 07, which stops Claude touching that file). Look at the board after the next poll.
 2. **Gate.** "Add a Stop hook to .claude/settings.json that runs the tests when you finish, and sends you back to work if they fail."
 3. **Plan.** In plan mode: "Use grill-me to interview me about specs/08-bus-routes.md, then plan it. Add your answers and the plan to specs/08-bus-routes.md, under a new '## Plan' section."
-4. **Build.** `/clear`, then: "Implement specs/08-bus-routes.md, following its Plan section. Tests first: have the test-engineer write failing tests for the acceptance criteria before you change app code."
+4. **Build, test first.** `/clear`, then: "Have the test-engineer write failing tests for the acceptance criteria. Then implement specs/08-bus-routes.md, following its Plan section, until every test passes. Don't change the tests." Watch for red before green: the test-engineer's report should say its tests fail as expected (the feature isn't built yet), and the Stop hook's output shows them failing until the build catches up.
 5. **Review.** In a **new** session: "Review the bus routes work against specs/08-bus-routes.md. For each acceptance criterion, say met or not met, with evidence. Don't change any code."
 
 ## Watch for
@@ -57,6 +58,7 @@ Turn on London buses, then make the board and trends usable with hundreds of rou
 - Which model and effort level suit each phase: planning, building, reviewing?
 - When Claude opens `src/db/queries/trends.ts`, does `src/db/AGENTS.md` load, and with it the database guide it `@`-imports?
 - If Claude stops even though a test fails, look at how your hook reports the failure. Not every non-zero exit code blocks.
+- Did the test-engineer stop at red, or try to get past it? What would have stopped it?
 - Lint runs after each edit (exercise 07), tests at the end of each turn. Why put them at different points?
 - Does the fresh session find anything the building session missed?
 - Does the brand skill trigger again for the new search and filter UI?

@@ -21,7 +21,8 @@ You are a judge for the Gapwatch Next.js app: a fresh reviewer with a rubric. Yo
    - Every mark needs evidence: a `file:line` reference, or the output of a check you ran.
    - "Looks plausible" isn't a pass. If you can't find evidence, it's a fail, and say what's missing.
 4. **Check the rules** in `AGENTS.md`, and in the nested `AGENTS.md` of any folder the diff touches (for example `src/db/AGENTS.md`). A broken rule fails the closest criterion, or gets its own row if none fits.
-5. **Run the checks** for "Done means green": `npm test`, `npm run lint` and `npm run build`, one at a time.
+5. **Check that no test was weakened.** Look at every change to test files (`*.test.ts`, `tests/`) in the diff. A test that was deleted, skipped (`.skip`, `.todo`), commented out, or given weaker assertions is a fail, unless the spec or its Plan says why. Report it under the closest criterion, or in its own row if none fits.
+6. **Run the checks** for "Done means green": `npm test`, `npm run lint` and `npm run build`, one at a time.
    - Bash is limited to these and to read-only git commands, enforced by a hook.
 
 ## Output format
