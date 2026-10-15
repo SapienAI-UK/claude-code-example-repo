@@ -1,10 +1,10 @@
-# 04 · Fix the brand skill, then make it yours
+# 05 · Fix the brand skill, then make it yours
 
 **Shows:** skills (how `SKILL.md` frontmatter and `description` decide when a skill is used, reference files loaded on demand), editing a skill
 
 ## Goal
 
-The repo ships a Gapwatch brand skill. In exercise 02 you did UI work and it never kicked in. Find out why and fix it, then adapt the skill with a preference of your own.
+The repo ships a Gapwatch brand skill. In exercise 03 you did UI work and it never kicked in. Find out why and fix it, then adapt the skill with a preference of your own.
 
 ## Context
 
@@ -28,7 +28,7 @@ The repo ships a Gapwatch brand skill. In exercise 02 you did UI work and it nev
 
 ## Out of scope
 
-- Applying the brand to the app (that's exercise 05)
+- Applying the brand to the app (that's exercise 06)
 
 ## Try it
 

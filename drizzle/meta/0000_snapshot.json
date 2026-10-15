@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "d7634e43-55ea-4126-8ddb-ef17e653d754",
+  "id": "79ff866f-ac48-41a0-8604-acf777c37fc3",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "status_snapshots": {
@@ -55,6 +55,14 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
+        },
+        "is_synthetic": {
+          "name": "is_synthetic",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
         },
         "polled_at": {
           "name": "polled_at",

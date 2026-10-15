@@ -1,4 +1,4 @@
-# 02 · Make disruption stand out
+# 03 · Make disruption stand out
 
 **Shows:** path-scoped rules in `.claude/rules/`, context that loads only when it's needed
 

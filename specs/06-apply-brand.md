@@ -1,4 +1,4 @@
-# 05 · Apply the Gapwatch brand
+# 06 · Apply the Gapwatch brand
 
 **Shows:** skills (automatic triggering, reference files loaded on demand)
 
@@ -12,7 +12,7 @@ Turn the deliberately plain UI into the Gapwatch brand: calm, legible, and with 
 - Layout and header: `src/app/layout.tsx`, `src/app/Header.tsx`
 - Live board: `src/app/LiveBoard.tsx`; trends: `src/app/trends/`
 
-**Prerequisite:** exercise 04. Until the brand skill is fixed, Claude won't use it.
+**Prerequisite:** exercise 05. Until the brand skill is fixed, Claude won't use it.
 
 ## Requirements
 
@@ -49,5 +49,5 @@ Take a screenshot of each page **before** you start, so you can compare. Start `
 - You never named the brand guidelines. Does Claude announce that it's using the `brand-guidelines` skill?
 - Which reference files does it open (`tokens.md`, `components.md`, `voice.md`), and when? It should load each only when needed.
 - Two sources shape this work: the skill (the brand, portable) and `.claude/rules/web-ui.md` (how this repo builds UI). Which decisions came from which?
-- Compare the live board with your screenshot from exercise 02. What changed about how status is shown?
+- Compare the live board with your screenshot from exercise 03. What changed about how status is shown?
 - **Optional experiment:** temporarily move `.claude/skills/brand-guidelines` out of the repo, run the same prompt on a fresh branch, and compare the results.

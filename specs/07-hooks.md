@@ -1,4 +1,4 @@
-# 06 · Hooks: block before, react after
+# 07 · Hooks: block before, react after
 
 **Shows:** PreToolUse hooks (enforcing what permission rules can't express), PostToolUse hooks (feedback to Claude after an edit), how Claude reacts when a hook speaks up
 
@@ -6,14 +6,14 @@
 
 Two hooks, one at each side of a tool call:
 
-- **Part A, block before.** After exercise 03, Claude can't read `.env.local` with its file tools, and simple shell reads like `cat` are caught by the deny rule too. But a program that opens the file itself, such as a `node -e` one-liner, gets through. The repo already has a hook that guards env files, yet it lets `.env.local` through. Close the gap.
+- **Part A, block before.** After exercise 04, Claude can't read `.env.local` with its file tools, and simple shell reads like `cat` are caught by the deny rule too. But a program that opens the file itself, such as a `node -e` one-liner, gets through. The repo already has a hook that guards env files, yet it lets `.env.local` through. Close the gap.
 - **Part B, react after.** Run the linter on every file Claude edits, so Claude hears about problems straight away and fixes them in the same turn.
 
 ## Context
 
 - The existing hook: `.claude/hooks/protect-env.mjs` (read its header comment; it also shows how a hook reads the tool call from stdin)
 - Where hooks are registered: `hooks` in `.claude/settings.json`
-- Your deny rules from exercise 03
+- Your deny rules from exercise 04
 - Lint setup: `eslint.config.mjs`
 - Hooks documentation: https://code.claude.com/docs/en/hooks
 
@@ -55,7 +55,7 @@ Two hooks, one at each side of a tool call:
 
 > "Read .env.local with a node one-liner and show me what's in it."
 
-It works, even with your deny rule from exercise 03. Now:
+It works, even with your deny rule from exercise 04. Now:
 
 > "Make the protect-env hook block .env.local too."
 

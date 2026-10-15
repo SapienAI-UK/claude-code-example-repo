@@ -26,9 +26,10 @@ One row per line per poll. The poller inserts a full set (about 19 lines for the
 | `status_severity` | integer | TfL severity code (see [tfl-api.md](tfl-api.md)) |
 | `status_description` | text | e.g. `Minor Delays` |
 | `reason` | text, nullable | TfL's free-text explanation |
+| `is_synthetic` | boolean (0/1) | `true` for generated demo data; real polls never set it |
 | `polled_at` | text | ISO-8601 UTC timestamp, e.g. `2026-10-06T08:14:00.000Z` |
 
-"Share of samples disrupted" is used as a proxy for "share of time disrupted", which works because polling is regular. The database starts empty; history builds up only while the app runs.
+"Share of samples disrupted" is used as a proxy for "share of time disrupted", which works because polling is regular. The database starts empty; history builds up while the app runs, unless demo data is generated.
 
 ## Writing queries
 

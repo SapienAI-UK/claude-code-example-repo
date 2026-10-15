@@ -1,4 +1,4 @@
-# 09 · Fix findings test first, two at once
+# 12 · Fix findings test first, two at once
 
 **Shows:** the test-engineer subagent, subagent-scoped hooks, a two-agent red/green loop, worktrees for parallel sessions
 
@@ -8,7 +8,7 @@ Fix two confirmed findings from the security audit at the same time, each in its
 
 ## Context
 
-- Your findings from exercise 08 (GitHub issues or the review table)
+- Your findings from exercise 11 (GitHub issues or the review table)
 - The tester: `.claude/agents/test-engineer.md`
 - Testing conventions: `docs/database.md` ("Testing with an in-memory database")
 - Worktrees documentation: https://code.claude.com/docs/en/worktrees

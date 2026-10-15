@@ -15,6 +15,7 @@ export const statusSnapshots = sqliteTable(
     statusSeverity: integer("status_severity").notNull(),
     statusDescription: text("status_description").notNull(),
     reason: text("reason"),
+    isSynthetic: integer("is_synthetic", { mode: "boolean" }).notNull().default(false),
     /** ISO-8601 UTC, e.g. 2026-10-06T08:14:00.000Z */
     polledAt: text("polled_at").notNull(),
   },

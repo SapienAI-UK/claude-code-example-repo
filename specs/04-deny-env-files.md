@@ -1,4 +1,4 @@
-# 03 · Keep Claude out of secrets with deny rules
+# 04 · Keep Claude out of secrets with deny rules
 
 **Shows:** permission rules (allow / ask / deny), deny beats allow, asking compared with enforcing
 
@@ -29,7 +29,7 @@
 
 ## Out of scope
 
-- Hooks (that's exercise 06)
+- Hooks (that's exercise 07)
 - Sandboxing
 
 ## Try it

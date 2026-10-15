@@ -1,4 +1,4 @@
-# 08 · Security audit
+# 11 · Security audit
 
 **Shows:** read-only subagents, delegation and handoff, `gh` behind permission prompts
 
@@ -33,7 +33,7 @@ Find out how well the app follows its own security rules, and turn every confirm
 
 ## Out of scope
 
-- Fixing anything (that's exercise 09)
+- Fixing anything (that's exercise 12)
 
 ## Try it
 
