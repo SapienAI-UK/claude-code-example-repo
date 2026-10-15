@@ -196,7 +196,7 @@ Each exercise is a spec in [`specs/`](specs/). Open it, read the goal, then use 
 3. **[Deny rules for secrets](specs/03-deny-env-files.md)**: allow, ask and deny; deny beats allow
 4. **[Fix the brand skill](specs/04-fix-brand-skill.md)**: why a skill does or doesn't trigger, and making it yours
 5. **[Apply the brand](specs/05-apply-brand.md)**: a skill that triggers itself, with references loaded on demand
-6. **[Close the gap with a hook](specs/06-hook-closes-the-gap.md)**: a PreToolUse hook enforces what a rule can't
+6. **[Hooks: block before, react after](specs/06-hook-closes-the-gap.md)**: a PreToolUse hook enforces what a rule can't; a PostToolUse hook lints every edit
 7. **[Add bus routes](specs/07-bus-routes.md)**: interview, plan to file, tests first, a Stop hook gate, fresh-session review
 8. **[Security audit](specs/08-security-audit.md)**: a read-only subagent; filing GitHub issues
 9. **[Fix findings test first, two at once](specs/09-fix-findings-test-first.md)**: the test-engineer subagent, red/green, worktrees
