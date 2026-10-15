@@ -6,7 +6,6 @@ CREATE TABLE `status_snapshots` (
 	`status_severity` integer NOT NULL,
 	`status_description` text NOT NULL,
 	`reason` text,
-	`is_synthetic` integer DEFAULT false NOT NULL,
 	`polled_at` text NOT NULL
 );
 --> statement-breakpoint

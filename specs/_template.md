@@ -1,6 +1,6 @@
 # NN · Title
 
-**Level:** beginner | intermediate | advanced · **Shows:** <Claude Code features this exercise demonstrates>
+**Shows:** <Claude Code features this exercise demonstrates>
 
 ## Goal
 

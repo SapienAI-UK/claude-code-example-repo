@@ -26,9 +26,9 @@ npm run db:migrate   # create the local SQLite database
 npm run dev          # start the app on http://localhost:3000
 ```
 
-Sign in with the **viewer** or **admin** account. The usernames and passwords are in `.env.local`; open it in your editor. (Claude can't read that file, by design; see [Guardrails](#guardrails).)
+Sign in with the **viewer** or **admin** account. The usernames and passwords are in `.env.local`; open it in your editor. (At first Claude can read that file too. Exercises 03 and 06 change that; see [Guardrails](#guardrails).)
 
-Within a few seconds the live board fills with real TfL data, then refreshes every 2 minutes for as long as the server runs. The trends page stays empty until history builds up, or until you complete [exercise 01](specs/01-demo-history.md).
+Within a few seconds the live board fills with real TfL data, then refreshes every 2 minutes for as long as the server runs. The database starts empty, so the trends page fills in as history builds up.
 
 Then open Claude Code in this folder (`claude`) and start with the exercises.
 
@@ -156,23 +156,23 @@ Skills and subagents add two more layers:
 > - The **`brand-guidelines` skill** is the *portable* brand: colours, type, components, voice, UK formatting. It names no files from this repo, so the same skill works in Claude chat for slides or documents.
 > - The **`web-ui` rule** is *how this repo builds UI*: server components, auth, where the tokens live, which helper decides a status.
 >
-> The rule doesn't mention the skill. Claude picks the skill from its `description` when a task is about the brand ("let's revisit the UI"). Exercise 02 lets you watch that happen.
+> The rule doesn't mention the skill. Claude picks the skill from its `description` when a task is about the brand ("let's revisit the UI"). Exercises 02, 04 and 05 let you watch that happen.
 
 > **Why `CLAUDE.md` *and* `AGENTS.md`?** `AGENTS.md` is the cross-tool convention many coding agents read. By default, Claude Code reads `CLAUDE.md` and only falls back to `AGENTS.md` when a project has no `CLAUDE.md` (the "Project instructions" setting can make it read both). A one-line `CLAUDE.md` containing `@AGENTS.md` keeps a single source of truth that works for every tool. The same trick is used in `src/db/` and `src/lib/tfl/`.
 
 ## Guardrails
 
-Two layers protect this repo, configured in [`.claude/settings.json`](.claude/settings.json).
+Two layers protect this repo, configured in [`.claude/settings.json`](.claude/settings.json). They start with a deliberate gap: `.env.local` is readable by Claude, so the first sessions can talk about it openly. Exercises [03](specs/03-deny-env-files.md) and [06](specs/06-hook-closes-the-gap.md) close it.
 
 **1. Permission rules.** These decide what Claude may do without asking:
 
 | Rule | Commands | Effect |
 |------|----------|--------|
 | `allow` | `npm run dev/build/lint`, `npm test`, `npm run db:*`, `git status/diff/log` | Runs without a prompt |
-| `ask` | `npm install`, `git commit`, `git push`, every `gh` command | Claude must get your approval each time |
-| `deny` | reading `.env` / `.env.local`, `rm -rf`, `curl`, `wget` | Refused outright |
+| `ask` | `npm install`, `git commit`, `git push`, every `gh` command, `wget` | Claude must get your approval each time |
+| `deny` | `rm -rf`, `curl` | Refused outright |
 
-**2. A PreToolUse hook.** [`.claude/hooks/protect-env.mjs`](.claude/hooks/protect-env.mjs) runs before every file read, search, edit and shell command. It inspects the tool's input and denies anything that mentions `.env` or `.env.local` (but allows `.env.example`). It explains to Claude why it was blocked, and logs the attempt to `.claude/hooks/blocked.log`.
+**2. A PreToolUse hook.** [`.claude/hooks/protect-env.mjs`](.claude/hooks/protect-env.mjs) runs before every file read, search, edit and shell command. It inspects the tool's input and denies anything that mentions a `.env` file, except the ones on its allow-list (`.env.example`, and to begin with `.env.local`). It explains to Claude why it was blocked, and logs the attempt to `.claude/hooks/blocked.log`.
 
 **Why both?**
 - **Deny rules** are declarative and simple. They match a tool plus a path or command pattern, and they're the first thing to reach for.
@@ -187,17 +187,20 @@ A subagent can carry its **own** hooks: [`test-engineer.md`](.claude/agents/test
 
 ## Exercises
 
-Each exercise is a spec in [`specs/`](specs/). Open it, read the goal, then use the "Try it" prompt with Claude. The "Watch for" section tells you what to notice about how Claude works.
+Each exercise is a spec in [`specs/`](specs/). Open it, read the goal, then use the "Try it" prompt with Claude. The "Watch for" section tells you what to notice about how Claude works. The numbers give a suggested order; pick the ones that fit what you're learning.
 
-1. **[Generate demo history](specs/01-demo-history.md)**: nested context files, linked docs, plan mode
-2. **[Apply the brand](specs/02-apply-brand.md)**: a skill that triggers itself
-3. **[Guardrails](specs/03-guardrails.md)**: permissions and hooks in action
-4. **[Security audit](specs/04-security-audit.md)**: a read-only subagent; filing GitHub issues
-5. **[Fix a finding, test first](specs/05-fix-flaw-test-first.md)**: the test-engineer subagent and a red/green loop
-6. **[Use the TfL app key](specs/06-tfl-api-key.md)**: working around blocked secrets the right way
-7. **[Add bus routes](specs/07-bus-routes.md)**: planning a bigger change, env-driven config
-8. **[Claude in GitHub](specs/08-claude-in-github.md)**: `@claude-help` to refine an issue and review your pull request
-9. **[Write your own spec](specs/09-write-a-spec.md)**: spec-driven development from the other side
+1. **[Credit TfL on every page](specs/01-tfl-attribution.md)**: the agent loop on a small change
+2. **[Make disruption stand out](specs/02-disruption-stands-out.md)**: a path-scoped rule that loads itself
+3. **[Deny rules for secrets](specs/03-deny-env-files.md)**: allow, ask and deny; deny beats allow
+4. **[Fix the brand skill](specs/04-fix-brand-skill.md)**: why a skill does or doesn't trigger, and making it yours
+5. **[Apply the brand](specs/05-apply-brand.md)**: a skill that triggers itself, with references loaded on demand
+6. **[Close the gap with a hook](specs/06-hook-closes-the-gap.md)**: a PreToolUse hook enforces what a rule can't
+7. **[Add bus routes](specs/07-bus-routes.md)**: interview, plan to file, tests first, a Stop hook gate, fresh-session review
+8. **[Security audit](specs/08-security-audit.md)**: a read-only subagent; filing GitHub issues
+9. **[Fix findings test first, two at once](specs/09-fix-findings-test-first.md)**: the test-engineer subagent, red/green, worktrees
+10. **[Use the TfL app key](specs/10-tfl-api-key.md)**: server-side secrets
+11. **[Claude in GitHub](specs/11-claude-in-github.md)**: `@claude-help` to refine an issue and review your pull request
+12. **[Write your own spec](specs/12-write-a-spec.md)**: spec-driven development from the other side
 
 New specs follow [`specs/_template.md`](specs/_template.md).
 
@@ -259,4 +262,4 @@ A checklist you can take away:
 
 ## About the flaws
 
-The codebase contains several intentional security weaknesses of the kind that turn up in real projects. They exist so exercise 04 has something to find. The answers aren't in this repository, which is deliberate: anything committed here is visible to Claude too.
+The codebase contains several intentional security weaknesses of the kind that turn up in real projects. They exist so exercise 08 has something to find. The answers aren't in this repository, which is deliberate: anything committed here is visible to Claude too.

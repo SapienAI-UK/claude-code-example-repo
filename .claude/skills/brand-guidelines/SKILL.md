@@ -1,6 +1,7 @@
 ---
 name: brand-guidelines
-description: Gapwatch brand guidelines covering colours, typography, status badges, line identifiers, charts, tone of voice and UK formatting. Use whenever making anything that carries the Gapwatch brand (app or web UI, restyling or reviewing a UI, slides, documents, charts) or writing user-facing text such as status messages, errors, labels or buttons.
+description: Gapwatch slide template. Use only when building a presentation or pitch deck about Gapwatch. Not for websites, app UI, code or user-facing copy.
+disable-model-invocation: true
 ---
 
 # Gapwatch brand guidelines

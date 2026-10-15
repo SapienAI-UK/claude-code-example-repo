@@ -31,10 +31,6 @@ export default async function AdminPage() {
             <th>Snapshots stored</th>
             <td>{stats.total.toLocaleString("en-GB")}</td>
           </tr>
-          <tr>
-            <th>Synthetic snapshots</th>
-            <td>{stats.synthetic.toLocaleString("en-GB")}</td>
-          </tr>
         </tbody>
       </table>
 

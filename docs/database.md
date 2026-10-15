@@ -26,20 +26,9 @@ One row per line per poll. The poller inserts a full set (about 19 lines for the
 | `status_severity` | integer | TfL severity code (see [tfl-api.md](tfl-api.md)) |
 | `status_description` | text | e.g. `Minor Delays` |
 | `reason` | text, nullable | TfL's free-text explanation |
-| `is_synthetic` | boolean (0/1) | `true` for generated demo data |
 | `polled_at` | text | ISO-8601 UTC timestamp, e.g. `2026-10-06T08:14:00.000Z` |
 
-"Share of samples disrupted" is used as a proxy for "share of time disrupted", which works because polling is regular.
-
-## Synthetic (demo) data
-
-Real history takes weeks to build up, so demo data may be generated. Conventions:
-
-- Every generated row sets `is_synthetic = true`.
-- Generated rows mimic real polling: one row per line every 2 minutes, real line ids and names, and plausible severities and reasons.
-- Live views (`getLatestStatuses`, "last poll" in admin) **exclude** synthetic rows. Trends **include** them.
-- Clearing demo data deletes `WHERE is_synthetic = 1` only, never real rows.
-- Insert in batches inside a transaction; 90 days of data is roughly 1.2 million rows.
+"Share of samples disrupted" is used as a proxy for "share of time disrupted", which works because polling is regular. The database starts empty; history builds up only while the app runs.
 
 ## Writing queries
 

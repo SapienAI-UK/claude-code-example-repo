@@ -1,6 +1,6 @@
-# 09 · Write your own spec
+# 12 · Write your own spec
 
-**Level:** advanced · **Shows:** spec-driven development from both sides
+**Shows:** spec-driven development from both sides
 
 ## Goal
 
@@ -20,12 +20,12 @@ Use Claude to *write* a spec, not just implement one, and then hand that spec to
   - **Weekly summary:** a page summarising last week's most disrupted lines and times
 - Have Claude interview you about the feature before writing (ask it to ask you questions).
 - The spec follows the template. Acceptance criteria are concrete and testable, and "Watch for" covers Claude's behaviour, not the code answer.
-- Save it as `specs/10-<name>.md`.
+- Save it as `specs/13-<name>.md`.
 - Then start a **new** Claude session and ask it to implement the spec.
 
 ## Acceptance criteria
 
-- [ ] `specs/10-<name>.md` exists and follows the template
+- [ ] `specs/13-<name>.md` exists and follows the template
 - [ ] Every acceptance criterion can be checked by a test or by looking at the app
 - [ ] A fresh session implemented it from the spec alone
 - [ ] You've noted anything the implementing session misunderstood, and improved the spec

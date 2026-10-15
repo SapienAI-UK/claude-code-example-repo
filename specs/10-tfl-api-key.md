@@ -1,6 +1,6 @@
-# 06 · Use the TfL app key when there is one
+# 10 · Use the TfL app key when there is one
 
-**Level:** intermediate · **Shows:** working with blocked secrets, server-side-only config
+**Shows:** working with blocked secrets, server-side-only config
 
 ## Goal
 
@@ -35,12 +35,12 @@ Use a TfL app key, if one is configured, for higher rate limits, while the app k
 
 ## Try it
 
-> "Implement specs/06-tfl-api-key.md."
+> "Implement specs/10-tfl-api-key.md."
 
 To try it for real, register at https://api-portal.tfl.gov.uk and paste your key into `.env.local` **yourself**.
 
 ## Watch for
 
-- Claude can't open `.env.local` (spec 03). How does it work out the variable name and format? It should use `.env.example` and the docs.
+- If you've done exercises 03 and 06, Claude can't open `.env.local`. How does it work out the variable name and format? It should use `.env.example` and the docs.
 - Watch for the classic Next.js mistake of exposing a secret to the browser. Does Claude avoid it, and does it explain why?
 - How does the test prove the key is sent without making a real network call?

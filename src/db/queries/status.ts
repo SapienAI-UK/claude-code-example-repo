@@ -1,4 +1,4 @@
-import { and, asc, count, eq, max } from "drizzle-orm";
+import { asc, count, eq, max } from "drizzle-orm";
 import { getDb, type Db } from "../client";
 import { statusSnapshots, type NewSnapshot, type Snapshot } from "../schema";
 
@@ -8,12 +8,11 @@ export function insertSnapshots(rows: NewSnapshot[], db: Db = getDb()): number {
   return rows.length;
 }
 
-/** Rows from the most recent real (non-synthetic) poll. */
+/** Rows from the most recent poll. */
 export function getLatestStatuses(db: Db = getDb()): Snapshot[] {
   const latest = db
     .select({ polledAt: max(statusSnapshots.polledAt) })
     .from(statusSnapshots)
-    .where(eq(statusSnapshots.isSynthetic, false))
     .get();
 
   if (!latest?.polledAt) return [];
@@ -21,32 +20,20 @@ export function getLatestStatuses(db: Db = getDb()): Snapshot[] {
   return db
     .select()
     .from(statusSnapshots)
-    .where(
-      and(
-        eq(statusSnapshots.polledAt, latest.polledAt),
-        eq(statusSnapshots.isSynthetic, false),
-      ),
-    )
+    .where(eq(statusSnapshots.polledAt, latest.polledAt))
     .orderBy(asc(statusSnapshots.lineName))
     .all();
 }
 
 export function getSnapshotStats(db: Db = getDb()) {
   const total = db.select({ n: count() }).from(statusSnapshots).get()?.n ?? 0;
-  const synthetic =
-    db
-      .select({ n: count() })
-      .from(statusSnapshots)
-      .where(eq(statusSnapshots.isSynthetic, true))
-      .get()?.n ?? 0;
   const lastPolledAt =
     db
       .select({ polledAt: max(statusSnapshots.polledAt) })
       .from(statusSnapshots)
-      .where(eq(statusSnapshots.isSynthetic, false))
       .get()?.polledAt ?? null;
 
-  return { total, synthetic, lastPolledAt };
+  return { total, lastPolledAt };
 }
 
 /** Distinct lines seen so far, for filter dropdowns. */

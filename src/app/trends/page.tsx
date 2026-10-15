@@ -56,9 +56,8 @@ export default async function TrendsPage({ searchParams }: PageProps<"/trends">)
         <div className="panel">
           <p>No history yet.</p>
           <p className="muted">
-            The poller adds a snapshot every 2 minutes, so trends fill in over time. To explore
-            the page straight away, see <strong>Exercise 1</strong> in the README (
-            <code>specs/01-demo-history.md</code>).
+            The poller adds a snapshot every 2 minutes while the app runs, so trends fill in over
+            time. Check back after a few polls.
           </p>
         </div>
       </main>

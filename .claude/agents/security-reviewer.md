@@ -32,7 +32,7 @@ Review the code against the project's **documented rules**, not just general bes
 6. **Check secrets.**
    - Search for `NEXT_PUBLIC_`.
    - Look for `process.env` in client components (`"use client"`) and for hardcoded keys or passwords in source.
-   - Do **not** try to open `.env.local`; it is blocked by a hook. Use `.env.example` for variable names.
+   - Do **not** open `.env.local`; it holds this machine's secrets. Use `.env.example` for variable names.
 
 ## Rules for findings
 
