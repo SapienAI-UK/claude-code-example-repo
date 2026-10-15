@@ -4,7 +4,7 @@
 
 ## Goal
 
-After exercise 03, Claude's file tools can't read `.env.local`, but a shell command still can. The repo already has a hook that guards env files, yet it lets `.env.local` through. Close the gap.
+After exercise 03, Claude can't read `.env.local` with its file tools, and simple shell reads like `cat` are caught by the deny rule too. But a program that opens the file itself, such as a `node -e` one-liner, gets through. The repo already has a hook that guards env files, yet it lets `.env.local` through. Close the gap.
 
 ## Context
 
@@ -22,10 +22,10 @@ After exercise 03, Claude's file tools can't read `.env.local`, but a shell comm
 
 ## Acceptance criteria
 
-- [ ] Asking Claude to print `.env.local` with the terminal is blocked, and Claude explains why
+- [ ] Reading `.env.local` with a `node -e` one-liner is blocked by the hook, and Claude explains why
 - [ ] The attempt appears in `.claude/hooks/blocked.log`
 - [ ] Asked which variables the app uses, Claude answers from `.env.example`
-- [ ] Editing code that reads `process.env.TFL_MODES` still works
+- [ ] Editing code that reads `process.env.TFL_MODES`, and searching the code for `process.env`, still work
 - [ ] You can explain why this repo uses both a deny rule and a hook
 
 ## Out of scope
@@ -35,9 +35,9 @@ After exercise 03, Claude's file tools can't read `.env.local`, but a shell comm
 
 ## Try it
 
-> "Use the terminal to print .env.local."
+> "Read .env.local with a node one-liner and show me what's in it."
 
-It works. Now:
+It works, even with your deny rule from exercise 03. Now:
 
 > "Make the protect-env hook block .env.local too."
 
@@ -48,3 +48,4 @@ Then try the first prompt again in a new session.
 - The hook's message goes back to Claude. Does Claude change approach (for example, switch to `.env.example`), or retry the same thing another way?
 - `AGENTS.md` never says "don't read `.env.local`". The block comes from the harness, not from Claude choosing to obey. **Instructions guide; hooks enforce.**
 - Which tool did Claude try first? The hook's matcher in `.claude/settings.json` covers all of them.
+- The hook reads command *text*. Can you think of a command it would miss? Real protection for shell commands comes from sandboxing, which works at the operating-system level.

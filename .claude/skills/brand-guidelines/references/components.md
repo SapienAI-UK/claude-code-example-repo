@@ -43,7 +43,7 @@ The single most important component. Used on the live board and anywhere a statu
 ## Header
 
 - `--gw-ink` background with white text. "Gapwatch" wordmark in bold on the left; nav on the right.
-- The current page is marked with an underline in `--gw-accent` (lightened for contrast on dark) and `aria-current="page"`.
+- The current page is marked with an underline in `--gw-accent-on-dark` and `aria-current="page"`.
 
 ## Buttons and forms
 

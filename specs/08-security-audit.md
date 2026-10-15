@@ -47,3 +47,4 @@ Requires the GitHub CLI (`gh auth login`) and a GitHub remote for this repo.
 - The handoff: the subagent reports, then the main agent decides what to do with the report.
 - Every `gh` command triggers a permission prompt (configured in `.claude/settings.json`), so you stay in control of what gets published.
 - How does a custom reviewer that knows *your* rules compare with the generic `/security-review`?
+- You may have spotted some flaws already, in earlier plans or answers. Does the reviewer find more, and does it confirm or reject what you'd seen?

@@ -41,4 +41,5 @@ When you're done, take a screenshot of the board and keep it. You'll need it lat
 
 - You never mentioned `.claude/rules/web-ui.md`. Does it load when Claude opens `LiveBoard.tsx`? Run `/memory` or `/context` to see what's loaded.
 - Look at the `paths:` frontmatter at the top of that rule. Compare it with `AGENTS.md`, which loads in every session.
+- `AGENTS.md` deliberately doesn't link to this rule, so you can see path-based loading on its own. The trade-off: `.claude/rules/` is Claude Code only, so other agents that read `AGENTS.md` won't discover these rules. In your own repo you'd usually add a plain link as well.
 - Which of Claude's decisions trace back to the rule, and which did it make up itself? Note the colours and wording it chose.

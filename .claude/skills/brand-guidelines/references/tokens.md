@@ -12,6 +12,7 @@ The hex values are the brand palette for any medium (slides, documents, web). On
   --gw-border: #d9d4c7;
   --gw-accent: #0f6e63;       /* links, focus rings, primary buttons */
   --gw-accent-ink: #ffffff;   /* text on accent */
+  --gw-accent-on-dark: #4fb3a6; /* accent on --gw-ink backgrounds (6.3:1) */
 
   /* Status: text/icon colour + tinted background */
   --gw-good: #1b6b44;       --gw-good-bg: #e2f2e9;

@@ -25,7 +25,7 @@
 - [ ] "Which environment variables does this app use?" is answered from `.env.example`
 - [ ] `.env.example` can still be read
 - [ ] You can explain why adding an `allow` rule for `.env.example` doesn't rescue it from a broader `deny`
-- [ ] You've tried "Use the terminal to print .env.local" and noted what happened
+- [ ] You've tried printing `.env.local` from the terminal in more than one way (for example `cat`, and a `node -e` one-liner that reads the file) and noted which ones the rule caught
 
 ## Out of scope
 
@@ -45,5 +45,5 @@ Start a new session before testing, and run `/permissions` to see the rules that
 ## Watch for
 
 - The obvious rule, `Read(**/.env*)`, also matches `.env.example`. What does Claude do about that? Rules are checked in the order deny, then ask, then allow, so an `allow` can't carve an exception out of a `deny`.
-- Deny rules match a tool plus a path. Did the rule stop a shell command that prints the file? What does that tell you about the difference between *asking* and *enforcing*?
+- Deny rules match a tool plus a path. Claude Code recognises common read commands such as `cat` and applies `Read` rules to them, but it can't see inside an arbitrary program that opens the file. Which of your terminal attempts got through?
 - `AGENTS.md` describes `.env.local` but never says "don't read it". Which one actually stopped Claude: the instruction or the rule?

@@ -22,10 +22,16 @@ const ENV_FILE = /(?<![\w$])(\.env(?:\.[\w-]+)*)(?![\w-])/gi;
 
 const FIELDS = ["file_path", "path", "pattern", "glob", "command", "notebook_path"];
 
+// Search patterns are regex or glob text, where `\.` is just an escaped dot: without
+// this, `process\.env` would look like a `.env` file. Paths keep their backslashes,
+// so Windows paths such as `src\.env.production` are still caught.
+const PATTERN_FIELDS = new Set(["pattern", "glob"]);
+
 function findBlocked(toolInput) {
   for (const field of FIELDS) {
-    const value = toolInput?.[field];
-    if (typeof value !== "string") continue;
+    const raw = toolInput?.[field];
+    if (typeof raw !== "string") continue;
+    const value = PATTERN_FIELDS.has(field) ? raw.replaceAll("\\.", ".") : raw;
     for (const match of value.matchAll(ENV_FILE)) {
       if (!ALLOWED.has(match[1])) return { field, file: match[1], value };
     }

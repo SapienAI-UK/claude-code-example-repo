@@ -19,6 +19,8 @@ Gapwatch helps London commuters decide, at a glance, whether their journey is OK
 
 ## When to read the reference files
 
+Open only the file the current task needs, when it needs it; don't read them all up front.
+
 - Setting up or changing colours, type, spacing: [references/tokens.md](references/tokens.md) (has the exact values and the CSS to paste)
 - Building status badges, line identifiers, tables, charts, header, empty states: [references/components.md](references/components.md)
 - Writing any copy (status text, reasons, errors, buttons, empty states): [references/voice.md](references/voice.md)

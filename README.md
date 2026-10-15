@@ -26,6 +26,8 @@ npm run db:migrate   # create the local SQLite database
 npm run dev          # start the app on http://localhost:3000
 ```
 
+`npm install` may print deprecation and audit warnings. They're expected; don't run `npm audit fix --force`, which can upgrade packages past what the app supports. `npm run db:migrate` finishes without a success message; no error means it worked.
+
 Sign in with the **viewer** or **admin** account. The usernames and passwords are in `.env.local`; open it in your editor. (At first Claude can read that file too. Exercises 03 and 06 change that; see [Guardrails](#guardrails).)
 
 Within a few seconds the live board fills with real TfL data, then refreshes every 2 minutes for as long as the server runs. The database starts empty, so the trends page fills in as history builds up.
@@ -63,7 +65,7 @@ A background poller (`src/instrumentation.ts` → `src/lib/poller.ts`) calls the
 
 ```
 .
-├── CLAUDE.md                      # one line: @AGENTS.md
+├── CLAUDE.md                      # @AGENTS.md plus Claude Code-only notes
 ├── AGENTS.md                      # project context: stack, commands, map, rules
 ├── docs/
 │   ├── database.md                # linked from AGENTS.md; imported by src/db/AGENTS.md
@@ -137,7 +139,7 @@ There are four mechanisms. This repo uses all of them so you can compare:
 |-----------|--------------|---------------|------------|
 | **`@` import** | `CLAUDE.md` → `@AGENTS.md` | Together with the file that contains it, inlined. In a root file that means **always**, at session start | Pulling one file into another. It's only as lazy as its parent, so keep root imports short. Paths resolve from the importing file. |
 | **Nested file** | `src/db/AGENTS.md`, `src/lib/tfl/AGENTS.md` | When Claude works on files in that folder | Rules that only matter in one area of the codebase |
-| **Path-scoped rule** | `.claude/rules/web-ui.md` with `paths:` frontmatter | When Claude reads or edits a file matching one of its globs | Rules tied to a kind of file rather than one folder. Claude Code only, so other agents need a plain link too. |
+| **Path-scoped rule** | `.claude/rules/web-ui.md` with `paths:` frontmatter | When Claude reads or edits a file matching one of its globs | Rules tied to a kind of file rather than one folder. Claude Code only, so other agents need a plain link too. This repo leaves that link out on purpose, so exercise 02 can show the rule loading by itself. |
 | **Plain link** | "[docs/tfl-api.md](docs/tfl-api.md)" in `AGENTS.md` | Only if Claude decides to read it | Long reference material |
 
 **The pattern: rules vs guides.**
@@ -158,7 +160,7 @@ Skills and subagents add two more layers:
 >
 > The rule doesn't mention the skill. Claude picks the skill from its `description` when a task is about the brand ("let's revisit the UI"). Exercises 02, 04 and 05 let you watch that happen.
 
-> **Why `CLAUDE.md` *and* `AGENTS.md`?** `AGENTS.md` is the cross-tool convention many coding agents read. By default, Claude Code reads `CLAUDE.md` and only falls back to `AGENTS.md` when a project has no `CLAUDE.md` (the "Project instructions" setting can make it read both). A one-line `CLAUDE.md` containing `@AGENTS.md` keeps a single source of truth that works for every tool. The same trick is used in `src/db/` and `src/lib/tfl/`.
+> **Why `CLAUDE.md` *and* `AGENTS.md`?** `AGENTS.md` is the cross-tool convention many coding agents read. By default, Claude Code reads `CLAUDE.md` and only falls back to `AGENTS.md` when a project has no `CLAUDE.md` (the "Project instructions" setting can make it read both). A `CLAUDE.md` that starts with `@AGENTS.md` keeps a single source of truth that works for every tool, and adds only the notes that are specific to Claude Code (here: use the file tools rather than the shell, and don't suggest `!` workarounds). The nested `CLAUDE.md` files in `src/db/` and `src/lib/tfl/` are just the one-line import.
 
 ## Guardrails
 
@@ -169,7 +171,7 @@ Two layers protect this repo, configured in [`.claude/settings.json`](.claude/se
 | Rule | Commands | Effect |
 |------|----------|--------|
 | `allow` | `npm run dev/build/lint`, `npm test`, `npm run db:*`, `git status/diff/log` | Runs without a prompt |
-| `ask` | `npm install`, `git commit`, `git push`, every `gh` command, `wget` | Claude must get your approval each time |
+| `ask` | `npm install`, `npm ci`, `git commit`, `git push`, every `gh` command, `wget` | Claude must get your approval each time |
 | `deny` | `rm -rf`, `curl` | Refused outright |
 
 **2. A PreToolUse hook.** [`.claude/hooks/protect-env.mjs`](.claude/hooks/protect-env.mjs) runs before every file read, search, edit and shell command. It inspects the tool's input and denies anything that mentions a `.env` file, except the ones on its allow-list (`.env.example`, and to begin with `.env.local`). It explains to Claude why it was blocked, and logs the attempt to `.claude/hooks/blocked.log`.
@@ -247,7 +249,7 @@ Usage counts against your own subscription's limits. Treat the token like a pass
 
 A checklist you can take away:
 
-- [ ] **Start a `CLAUDE.md` (or `AGENTS.md` plus a one-line `CLAUDE.md`).** Keep it short: what the project is, how to run, test and lint it, where things live, and the handful of rules that really matter. Run `/init` for a first draft.
+- [ ] **Start a `CLAUDE.md` (or `AGENTS.md` plus a `CLAUDE.md` that imports it).** Keep it short: what the project is, how to run, test and lint it, where things live, and the handful of rules that really matter. Run `/init` for a first draft.
 - [ ] **Move detail out.** Put long guides in `docs/` and link them from the root file. Put area-specific rules in nested files next to the code, which can `@`-import that area's guide. Put rules for a kind of file (UI components, tests) in `.claude/rules/` with `paths:`, and write them out in full there. Keep `@` imports in the root file for things that should always be loaded.
 - [ ] **Document your environment** in `.env.example`, so humans and agents never need to see the real values.
 - [ ] **Add permission rules** to `.claude/settings.json`:

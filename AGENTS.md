@@ -25,7 +25,6 @@ Next.js 16 (App Router, `src/proxy.ts`), TypeScript, React 19, plain CSS (`globa
 - `src/proxy.ts`: redirects signed-out visitors to `/login`
 - `specs/`: training exercises for people. Not a source of truth about the code: don't read them unless the user names one.
 - `docs/`: longer guides. Read them when the task needs them (see "Further reading").
-- [.claude/rules/web-ui.md](.claude/rules/web-ui.md): UI rules for pages, components and styles. Read it before changing them.
 
 ## Environment
 
@@ -36,7 +35,7 @@ Next.js 16 (App Router, `src/proxy.ts`), TypeScript, React 19, plain CSS (`globa
 
 - **Every API route handler calls `requireRole()`** with the minimum role it needs, before doing any work. Every page calls `requirePageRole()`. Don't rely on `src/proxy.ts` for authorisation.
 - **Secrets stay on the server.** Never expose a secret through a `NEXT_PUBLIC_` variable, a client component, or an API response.
-- **Done means green:** `npm test`, `npm run lint` and `npm run build` all pass.
+- **Done means green:** after any change, including config such as `.env` values or `TFL_MODES`, `npm test`, `npm run lint` and `npm run build` all pass.
 - When the user asks you to implement a named spec, satisfy every acceptance criterion and tick the boxes in that spec file.
 - Keep changes focused; don't refactor unrelated code.
 - **Code describes the present; git holds the history.** Let names and structure carry the *what*; comment only the *why* the code can't show (a constraint, a gotcha, a unit, a reference), as in `src/lib/poller.ts`. Anything that only makes sense to someone who saw the previous version belongs in the commit message.
