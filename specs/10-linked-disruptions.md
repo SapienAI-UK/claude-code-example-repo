@@ -23,7 +23,7 @@ Show when several lines share one cause, for example a single signal failure tha
 ## Requirements
 
 - **Links table:** a new table, added through a migration, records which lines' reports share a cause.
-- **Matching rule:** decides which reports from the same poll share a cause, based on their `reason` text. Document the rule.
+- **Matching rule:** decides which reports within 30 minutes of each other share a cause, based on their `reason` text. Document the rule.
 - **Evidence:** every link keeps the quoted `reason` from each report it links.
 - **Admin review:** admins confirm or dismiss suggested links.
 - **On the board:** confirmed links show on the live board for everyone signed in. Suggested links only appear in admin review.
