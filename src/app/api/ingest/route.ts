@@ -1,13 +1,11 @@
 import { NextResponse } from "next/server";
-import { getSession } from "@/lib/auth";
+import { requireRole } from "@/lib/auth";
 import { pollOnce } from "@/lib/poller";
 
 /** Triggers an immediate poll ("Poll now" on the admin page). */
 export async function POST() {
-  const session = await getSession();
-  if (!session) {
-    return NextResponse.json({ error: "Not signed in" }, { status: 401 });
-  }
+  const auth = await requireRole("admin");
+  if (!auth.ok) return auth.response;
 
   try {
     const stored = await pollOnce();

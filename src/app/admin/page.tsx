@@ -1,6 +1,9 @@
 import { getSnapshotStats } from "@/db/queries/status";
 import { requirePageRole } from "@/lib/auth";
+import { hasSyntheticRows, isDemoMode } from "@/db/queries/demo";
 import { getModes } from "@/lib/tfl/client";
+import { DemoToggle } from "../DemoToggle";
+import { DemoDataActions } from "./DemoDataActions";
 import { PollNowButton } from "./PollNowButton";
 
 export const dynamic = "force-dynamic";
@@ -36,6 +39,10 @@ export default async function AdminPage() {
 
       <h2>Actions</h2>
       <PollNowButton />
+
+      <h2>Demo data</h2>
+      {hasSyntheticRows() && <DemoToggle active={isDemoMode()} />}
+      <DemoDataActions hasDemoData={hasSyntheticRows()} />
     </main>
   );
 }
