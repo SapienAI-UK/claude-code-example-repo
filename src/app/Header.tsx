@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { hasSyntheticRows, isDemoMode } from "@/db/queries/demo";
 import { getSession, hasRole } from "@/lib/auth";
+import { DemoToggle } from "./DemoToggle";
 import { logout } from "./login/actions";
 
 export async function Header() {
@@ -15,6 +17,7 @@ export async function Header() {
           <Link href="/">Live board</Link>
           <Link href="/trends">Trends</Link>
           {hasRole(session, "admin") && <Link href="/admin">Admin</Link>}
+          {hasRole(session, "admin") && hasSyntheticRows() && <DemoToggle active={isDemoMode()} />}
           <span className="muted">
             {session.username} ({session.role})
           </span>

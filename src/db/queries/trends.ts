@@ -1,6 +1,7 @@
 import { sql, type SQL } from "drizzle-orm";
 import { NON_DISRUPTED_SEVERITIES } from "@/lib/tfl/severity";
 import { getDb, type Db } from "../client";
+import { isDemoMode } from "./demo";
 
 export type TrendFilter = {
   /** TfL line id, e.g. "central". Omit for all lines. */
@@ -29,14 +30,15 @@ const disruptedCase = sql.raw(
   `CASE WHEN status_severity IN (${NON_DISRUPTED_SEVERITIES.join(", ")}) THEN 0 ELSE 1 END`,
 );
 
-function buildWhere({ line, days }: TrendFilter): SQL {
+/** Only the rows the app is currently showing (demo or live), within the look-back window. */
+function buildWhere({ line, days }: TrendFilter, db: Db): SQL {
   const lookBack = Number.isFinite(days) && days! > 0 ? days! : DEFAULT_DAYS;
   const since = new Date(Date.now() - lookBack * 24 * 60 * 60 * 1000).toISOString();
 
-  const conditions = [`polled_at >= '${since}'`];
-  if (line) conditions.push(`line_id = '${line}'`);
+  const conditions = [sql`is_synthetic = ${isDemoMode(db) ? 1 : 0}`, sql`polled_at >= ${since}`];
+  if (line) conditions.push(sql`line_id = ${line}`);
 
-  return sql.raw(`WHERE ${conditions.join(" AND ")}`);
+  return sql`WHERE ${sql.join(conditions, sql` AND `)}`;
 }
 
 /** Lines ranked by share of samples that were disrupted. */
@@ -48,7 +50,7 @@ export function getDisruptionByLine(filter: TrendFilter = {}, db: Db = getDb()):
            COUNT(*) AS samples,
            SUM(${disruptedCase}) AS disrupted
     FROM status_snapshots
-    ${buildWhere(filter)}
+    ${buildWhere(filter, db)}
     GROUP BY line_id
     ORDER BY CAST(SUM(${disruptedCase}) AS REAL) / COUNT(*) DESC, line_name
   `);
@@ -61,7 +63,7 @@ export function getDisruptionByHour(filter: TrendFilter = {}, db: Db = getDb()):
            COUNT(*) AS samples,
            SUM(${disruptedCase}) AS disrupted
     FROM status_snapshots
-    ${buildWhere(filter)}
+    ${buildWhere(filter, db)}
     GROUP BY bucket
     ORDER BY bucket
   `);
@@ -77,7 +79,7 @@ export function getDisruptionByWeekday(
            COUNT(*) AS samples,
            SUM(${disruptedCase}) AS disrupted
     FROM status_snapshots
-    ${buildWhere(filter)}
+    ${buildWhere(filter, db)}
     GROUP BY bucket
     ORDER BY bucket
   `);

@@ -1,4 +1,5 @@
 import { getLatestStatuses } from "@/db/queries/status";
+import { isDemoMode } from "@/db/queries/demo";
 import { requirePageRole } from "@/lib/auth";
 import { LiveBoard } from "./LiveBoard";
 
@@ -11,7 +12,8 @@ export default async function BoardPage() {
   return (
     <main>
       <h1>Live line status</h1>
-      <LiveBoard initialLines={lines} />
+      {/* LiveBoard keeps its own copy of the rows, so remount it when the data source changes. */}
+      <LiveBoard key={isDemoMode() ? "demo" : "live"} initialLines={lines} />
     </main>
   );
 }
