@@ -1,7 +1,8 @@
 import { isDemoMode } from "@/db/queries/demo";
+import { getSession } from "@/lib/auth";
 
-export function DemoBanner() {
-  if (!isDemoMode()) return null;
+export async function DemoBanner() {
+  if (!(await getSession()) || !isDemoMode()) return null;
 
   return (
     <div className="demo-banner" role="status">
