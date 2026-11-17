@@ -1,0 +1,1 @@
+CREATE INDEX `idx_snapshots_is_synthetic` ON `status_snapshots` (`is_synthetic`);

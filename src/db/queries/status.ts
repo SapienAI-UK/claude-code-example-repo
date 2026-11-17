@@ -1,5 +1,6 @@
-import { asc, count, eq, max } from "drizzle-orm";
+import { and, asc, count, eq, max } from "drizzle-orm";
 import { getDb, type Db } from "../client";
+import { visibleRows } from "./demo";
 import { statusSnapshots, type NewSnapshot, type Snapshot } from "../schema";
 
 export function insertSnapshots(rows: NewSnapshot[], db: Db = getDb()): number {
@@ -10,9 +11,11 @@ export function insertSnapshots(rows: NewSnapshot[], db: Db = getDb()): number {
 
 /** Rows from the most recent poll. */
 export function getLatestStatuses(db: Db = getDb()): Snapshot[] {
+  const visible = visibleRows(db);
   const latest = db
     .select({ polledAt: max(statusSnapshots.polledAt) })
     .from(statusSnapshots)
+    .where(visible)
     .get();
 
   if (!latest?.polledAt) return [];
@@ -20,17 +23,19 @@ export function getLatestStatuses(db: Db = getDb()): Snapshot[] {
   return db
     .select()
     .from(statusSnapshots)
-    .where(eq(statusSnapshots.polledAt, latest.polledAt))
+    .where(and(visible, eq(statusSnapshots.polledAt, latest.polledAt)))
     .orderBy(asc(statusSnapshots.lineName))
     .all();
 }
 
 export function getSnapshotStats(db: Db = getDb()) {
-  const total = db.select({ n: count() }).from(statusSnapshots).get()?.n ?? 0;
+  const visible = visibleRows(db);
+  const total = db.select({ n: count() }).from(statusSnapshots).where(visible).get()?.n ?? 0;
   const lastPolledAt =
     db
       .select({ polledAt: max(statusSnapshots.polledAt) })
       .from(statusSnapshots)
+      .where(visible)
       .get()?.polledAt ?? null;
 
   return { total, lastPolledAt };
@@ -41,6 +46,7 @@ export function getKnownLines(db: Db = getDb()) {
   return db
     .selectDistinct({ lineId: statusSnapshots.lineId, lineName: statusSnapshots.lineName })
     .from(statusSnapshots)
+    .where(visibleRows(db))
     .orderBy(asc(statusSnapshots.lineName))
     .all();
 }

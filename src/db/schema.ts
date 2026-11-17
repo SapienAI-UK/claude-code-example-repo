@@ -22,8 +22,15 @@ export const statusSnapshots = sqliteTable(
   (t) => [
     index("idx_snapshots_polled_at").on(t.polledAt),
     index("idx_snapshots_line_id").on(t.lineId),
+    index("idx_snapshots_is_synthetic").on(t.isSynthetic),
   ],
 );
 
 export type Snapshot = typeof statusSnapshots.$inferSelect;
 export type NewSnapshot = typeof statusSnapshots.$inferInsert;
+
+/** Small key/value store for app state that must survive restarts, e.g. whether demo data is shown. */
+export const appSettings = sqliteTable("app_settings", {
+  key: text("key").primaryKey(),
+  value: text("value").notNull(),
+});

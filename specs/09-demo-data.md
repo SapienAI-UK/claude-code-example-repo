@@ -23,29 +23,31 @@ Real history takes weeks to build up, and disruptions that share a cause are rar
   - believable `reason` text for disruptions
 - It also includes a **current scenario** in which several lines share one cause (for example, one signal failure affecting two lines).
 - Generation is repeatable: the same seed always produces the same data.
-- **Demo mode:** while any generated rows exist:
+- **Demo mode:** while generated rows exist and the admin has chosen to show them (generating switches it on):
   - live polling is paused
-  - the live board shows the demo data
+  - the board, trends and history show only the demo data
   - every page shows a clear banner saying that demo data is showing and live polling is paused
+- Admins can switch between demo and live data without deleting anything. Live mode shows only real rows, and polling resumes.
 - When the demo data is cleared, polling resumes and the board returns to live data.
 
 ## Acceptance criteria
 
 - [ ] The admin page shows both actions with clear labels, and Clear asks for confirmation
 - [ ] A viewer can't trigger either action (UI or API)
-- [ ] After generating, `/trends` shows populated tables for line, hour and weekday
+- [x] After generating, `/trends` shows populated tables for line, hour and weekday
 - [ ] After generating, the board shows the current scenario, and every page shows the demo banner
-- [ ] No real polls are stored while demo data exists
-- [ ] Clear removes only generated rows; real polled rows survive
+- [x] No real polls are stored while demo data exists
+- [x] Clear removes only generated rows; real polled rows survive
 - [ ] After clearing, the banner disappears and live polling resumes
-- [ ] Generating twice with the same seed gives the same data
-- [ ] Tests cover generating, clearing and the pause decision against an in-memory database
-- [ ] `npm test`, `npm run lint` and `npm run build` pass
+- [x] Switching to live data shows only real rows and resumes polling, keeping the demo rows; switching back shows the demo data again
+- [x] Generating twice with the same seed gives the same data
+- [x] Tests cover generating, clearing and the pause decision against an in-memory database
+- [x] `npm test`, `npm run lint` and `npm run build` pass
 
 ## Out of scope
 
 - Styling beyond the existing look
-- Changing the trends queries
+- Changing what the trends queries compute (they only gain the demo/live row filter)
 
 ## Try it
 

@@ -8,6 +8,20 @@
       "when": 1792061248312,
       "tag": "0000_init",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1792681311655,
+      "tag": "0001_synthetic_index",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1792681594290,
+      "tag": "0002_app_settings",
+      "breakpoints": true
     }
   ]
 }

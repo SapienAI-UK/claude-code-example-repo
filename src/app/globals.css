@@ -1,3 +1,34 @@
+:root {
+  --gw-ink: #14213d;
+  --gw-ink-muted: #4f5a6e;
+  --gw-surface: #ffffff;
+  --gw-border: #d9d4c7;
+  --gw-radius: 6px;
+  --gw-space-2: 8px;
+  --gw-space-3: 12px;
+  --gw-space-4: 16px;
+  --gw-text-sm: 0.875rem;
+  --gw-text-base: 1rem;
+  --gw-mode-tube: #0b3a82;
+  --gw-mode-tube-bg: #e3ebf8;
+  --gw-mode-dlr: #006a6a;
+  --gw-mode-dlr-bg: #dff4f3;
+  --gw-mode-overground: #a84300;
+  --gw-mode-overground-bg: #fff0e3;
+  --gw-mode-elizabeth-line: #5b2a86;
+  --gw-mode-elizabeth-line-bg: #efe6f7;
+  --gw-mode-tram: #2d6e1f;
+  --gw-mode-tram-bg: #e6f5e1;
+  --gw-mode-bus: #b3141f;
+  --gw-mode-bus-bg: #fde8ea;
+  --gw-mode-river-bus: #00607f;
+  --gw-mode-river-bus-bg: #e0f1f8;
+  --gw-mode-cable-car: #a1166a;
+  --gw-mode-cable-car-bg: #fbe5f2;
+  --gw-mode-other: #444;
+  --gw-mode-other-bg: #eee;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -64,6 +95,66 @@ a {
   align-items: center;
   flex-wrap: wrap;
   gap: 16px;
+}
+
+.demo-banner {
+  padding: 8px 16px;
+  background: var(--gw-mode-overground-bg);
+  color: var(--gw-ink);
+  border-bottom: 1px solid var(--gw-mode-overground);
+  font-size: var(--gw-text-sm);
+}
+
+.demo-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gw-space-2);
+  font-size: var(--gw-text-sm);
+}
+
+.switch {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  padding: 0;
+  border: 1px solid var(--gw-border);
+  border-radius: 999px;
+  background: var(--gw-surface);
+  cursor: pointer;
+}
+
+.switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--gw-ink-muted);
+  transition: transform 0.15s;
+}
+
+.switch[aria-checked="true"] {
+  background: var(--gw-mode-overground-bg);
+  border-color: var(--gw-mode-overground);
+}
+
+.switch[aria-checked="true"]::after {
+  background: var(--gw-mode-overground);
+  transform: translateX(16px);
+}
+
+.switch:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.site-footer {
+  padding: 16px;
+  border-top: 1px solid #ddd;
+  font-size: 0.85rem;
+  text-align: center;
 }
 
 .stack {
